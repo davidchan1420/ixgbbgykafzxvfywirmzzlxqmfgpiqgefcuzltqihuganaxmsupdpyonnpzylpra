@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">電影隨處看</string>
+    <string name="title_activity_main">主畫面</string>
+    <string name="action_settings">設定</string>
+    <string name="hello_world">您好!!!</string>
+
+    <string name="search_by_movie_name">電影名稱</string>
+    <string name="search_by_cinema">戲院</string>
+    <string name="search_by_showing_date">放映日期:</string>
+    
+</resources>

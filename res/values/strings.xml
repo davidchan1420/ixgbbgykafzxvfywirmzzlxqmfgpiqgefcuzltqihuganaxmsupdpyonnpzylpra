@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Movie Anywhere</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    
+     <string name="search_by_movie_name">Movie Name</string>
+     <string name="search_by_cinema">Cinema</string>
+     <string name="search_by_showing_date">Showing Date:</string>
+     
+     <string name="empty_string"/>
+     
+     
+
+</resources>

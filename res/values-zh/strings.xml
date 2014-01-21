@@ -6,8 +6,27 @@
     <string name="action_settings">設定</string>
     <string name="hello_world">您好!!!</string>
 
-    <string name="search_by_movie_name">電影名稱</string>
-    <string name="search_by_cinema">戲院</string>
-    <string name="search_by_showing_date">放映日期:</string>
+    <string name="search_by_movie_name">輸入電影名稱</string>
+    <string name="search_by_cinema">輸入戲院</string>
+    <string name="search_by_showing_date">選擇放映日期:</string>
+    
+    <string name="distance_prompt">相對距離少於:</string>
+    
+    <string-array name="array_distance">
+        <item>@string/distance_any</item>
+        <item>@string/distance_1km</item>
+        <item>@string/distance_2km</item>
+        <item>@string/distance_5km</item>
+        <item>@string/distance_10km</item>        
+    </string-array>
+
+    <string name="distance_any">任何區域</string>
+    <string name="distance_1km">1 公里</string>
+    <string name="distance_2km">2 公里</string>
+    <string name="distance_5km">5 公里</string>
+    <string name="distance_10km">10 公里</string>
+    
+    
+    <string name="empty_string" />
     
 </resources>

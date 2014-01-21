@@ -5,14 +5,25 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="search_by_movie_name">Enter Movie Name</string>
+    <string name="search_by_cinema">Enter Cinema</string>
+    <string name="search_by_showing_date">Select Showing Date:</string>
+
+    <string name="distance_prompt">Relative Distance within:</string>
+    <string-array name="array_distance">
+        <item>@string/distance_any</item>
+        <item>@string/distance_1km</item>
+        <item>@string/distance_2km</item>
+        <item>@string/distance_5km</item>
+        <item>@string/distance_10km</item>        
+    </string-array>
+
+    <string name="distance_any">Any Area</string>
+    <string name="distance_1km">1 km</string>
+    <string name="distance_2km">2 km</string>
+    <string name="distance_5km">5 km</string>
+    <string name="distance_10km">10 km</string>   
     
-    
-     <string name="search_by_movie_name">Movie Name</string>
-     <string name="search_by_cinema">Cinema</string>
-     <string name="search_by_showing_date">Showing Date:</string>
-     
-     <string name="empty_string"/>
-     
-     
+    <string name="empty_string" />
 
 </resources>

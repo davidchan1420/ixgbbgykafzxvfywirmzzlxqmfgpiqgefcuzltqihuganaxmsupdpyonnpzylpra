@@ -1,6 +1,7 @@
 package android.movieservice.activity;
 
 import java.util.Calendar;
+
 import movieservice.util.CalendarUtil;
 import android.app.Activity;
 import android.content.Context;
@@ -32,6 +33,7 @@ public class MainActivity extends Activity {
 	private Criteria locationCritera;
 	private LocationListener locListener;
 	private String providerName;
+	private Spinner spinnerDistance;
 	
 	public TextView tvSystemMessage;
 
@@ -43,18 +45,15 @@ public class MainActivity extends Activity {
 
 		generate5ShowingDate();
 
-		Spinner spDistance = (Spinner) findViewById(R.id.spinner_distance);
+		spinnerDistance = (Spinner) findViewById(R.id.spinner_distance);
 
-		spDistance.setOnTouchListener(new OnTouchListener() {
+		spinnerDistance.setOnTouchListener(new OnTouchListener() {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					if (isLocationProviderEnabled()) {
-						updateLocation();
-						
-					}else{						
+					if (!isLocationProviderEnabled()) {
 						promptLocationService();
 						return true;
 					}
@@ -63,9 +62,8 @@ public class MainActivity extends Activity {
 			}
 		});
 
-//		tvSystemMessage = (TextView) findViewById(R.id.tvSystemMessage);		
-//		tvSystemMessage.append("onCreate ");
-		
+		tvSystemMessage = (TextView) findViewById(R.id.tvSystemMessage);		
+		tvSystemMessage.append("onCreate ");		
 	}
 
 	@Override
@@ -91,8 +89,7 @@ public class MainActivity extends Activity {
 		if (providerName != null && !providerName.equalsIgnoreCase("passive") && locationManager.isProviderEnabled(providerName)) {
 			
 //			TextView tvProviderName = (TextView) findViewById(R.id.tvProviderName);		
-//			tvProviderName.setText(providerName);
-			
+//			tvProviderName.setText(providerName);			
 			return true;
 		}
 		return false;
@@ -112,6 +109,18 @@ public class MainActivity extends Activity {
 		MainActivity.this.startActivity(myIntent);
 	}
 
+	private void setLocationServiceIcon(){
+		
+		boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		boolean isNetworkProviderEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		
+		TextView textGps = (TextView) findViewById(R.id.text_gps);
+		TextView textNetwork = (TextView) findViewById(R.id.text_network);
+		
+		textGps.setBackgroundResource(isGpsProviderEnabled==true ? R.color.green : R.color.red);
+		textNetwork.setBackgroundResource(isNetworkProviderEnabled==true ? R.color.green : R.color.red);	
+	}
+	
 	private class DispLocListener implements LocationListener {
 		@Override
 		public void onLocationChanged(Location location) {
@@ -151,7 +160,7 @@ public class MainActivity extends Activity {
 	public void onPause() {
 		super.onPause();
 		locationManager.removeUpdates(locListener);
-//		tvSystemMessage.append("onPause ");
+		tvSystemMessage.append("onPause ");
 	}
 
 	//	Resume location updates when we're resumed
@@ -160,9 +169,15 @@ public class MainActivity extends Activity {
 		super.onResume();
 		if(isLocationProviderEnabled()){
 			updateLocation();
-		}				
-//		tvSystemMessage.append("onResume ");
+		}else{
+			//Set Distance Spinner Value to Any Area (NULL)
+			spinnerDistance = (Spinner) findViewById(R.id.spinner_distance);
+			spinnerDistance.setSelection(0);			
+		}
+		setLocationServiceIcon();
+		tvSystemMessage.append("onResume ");
 	}
+	
 	
 	private void generate5ShowingDate() {
 

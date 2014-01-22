@@ -28,24 +28,32 @@
        	<LinearLayout
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:background="@+color/blue"
+	        android:layout_marginTop="10dp"
 	        android:orientation="horizontal" >
 
 	        <TextView
 	            android:id="@+id/text_gps"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
-	            android:layout_weight="0.5"
+	            android:layout_weight="0.495"
 	            android:background="@+color/green"
 	            android:gravity="center"
 	            android:text="@+string/gps"
 	            android:textSize="18sp" />
 	
 	        <TextView
+	            android:id="@+id/text_separator"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.01"
+	            android:gravity="center"
+	            />
+	        
+	        <TextView
 	            android:id="@+id/text_network"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
-	            android:layout_weight="0.5"
+	            android:layout_weight="0.495"
 	            android:background="@+color/red"
 	            android:gravity="center"
 	            android:text="@+string/network"
@@ -63,15 +71,15 @@
             android:id="@+id/text_cinema"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:hint="@+string/search_by_cinema" />
 
         <TextView
             android:id="@+id/text_showing_date"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"            
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="12dp"
             android:text="@+string/search_by_showing_date"
             android:textSize="18sp" />
 
@@ -79,7 +87,7 @@
             android:id="@+id/checkBox_today"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:checked="true"
             android:text="@+string/empty_string" />
 
@@ -87,28 +95,28 @@
             android:id="@+id/checkBox_today_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:text="@+string/empty_string" />
 
         <CheckBox
             android:id="@+id/checkBox_today_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:text="@+string/empty_string" />
 
         <CheckBox
             android:id="@+id/checkBox_today_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:text="@+string/empty_string" />
 
         <CheckBox
             android:id="@+id/checkBox_today_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:text="@+string/empty_string" />
 
         
@@ -146,16 +154,18 @@
 <!--             android:layout_width="fill_parent" -->
 <!--             android:layout_height="wrap_content" /> -->
 
-<!--         <TextView -->
-<!--             android:id="@+id/lblSystemMessage" -->
-<!--             android:layout_width="fill_parent" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:text="System Message: " /> -->
+        <TextView
+            android:id="@+id/lblSystemMessage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="System Message: " />
 
-<!--         <TextView -->
-<!--             android:id="@+id/tvSystemMessage" -->
-<!--             android:layout_width="fill_parent" -->
-<!--             android:layout_height="wrap_content" /> -->
+        <TextView
+            android:id="@+id/tvSystemMessage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp" />
        
 
 </LinearLayout>

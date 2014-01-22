@@ -2,10 +2,9 @@
 <resources>
 
     <string name="app_name">電影隨處看</string>
-    <string name="title_activity_main">主畫面</string>
+    <string name="title_activity_main">搜尋附近電影</string>
     <string name="action_settings">設定</string>
-    <string name="hello_world">您好!!!</string>
-
+    
     <string name="search_by_movie_name">輸入電影名稱</string>
     <string name="search_by_cinema">輸入戲院</string>
     <string name="search_by_showing_date">選擇放映日期:</string>
@@ -27,7 +26,7 @@
     <string name="distance_10km">10 公里</string>
         
     <string name="gps">衞星定位</string>
-    <string name="network">網絡</string>
+    <string name="network">網絡定位</string>
     
     <string name="empty_string" />
     

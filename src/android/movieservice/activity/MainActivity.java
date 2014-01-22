@@ -31,6 +31,9 @@ public class MainActivity extends Activity {
 	private LocationManager locationManager;
 	private Criteria locationCritera;
 	private LocationListener locListener;
+	private String providerName;
+	
+	public TextView tvSystemMessage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,10 @@ public class MainActivity extends Activity {
 			public boolean onTouch(View v, MotionEvent event) {
 
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					if (!isLocationProviderEnabled()) {
+					if (isLocationProviderEnabled()) {
+						updateLocation();
+						
+					}else{						
 						promptLocationService();
 						return true;
 					}
@@ -57,6 +63,9 @@ public class MainActivity extends Activity {
 			}
 		});
 
+//		tvSystemMessage = (TextView) findViewById(R.id.tvSystemMessage);		
+//		tvSystemMessage.append("onCreate ");
+		
 	}
 
 	@Override
@@ -77,13 +86,22 @@ public class MainActivity extends Activity {
 		locationCritera.setCostAllowed(true);
 		locationCritera.setPowerRequirement(Criteria.NO_REQUIREMENT);
 
-		String providerName = locationManager.getBestProvider(locationCritera, true);
+		providerName = locationManager.getBestProvider(locationCritera, true);
 
 		if (providerName != null && !providerName.equalsIgnoreCase("passive") && locationManager.isProviderEnabled(providerName)) {
-
+			
+//			TextView tvProviderName = (TextView) findViewById(R.id.tvProviderName);		
+//			tvProviderName.setText(providerName);
+			
 			return true;
 		}
 		return false;
+	}
+	
+	private void updateLocation(){
+		
+		locationManager.requestLocationUpdates(providerName, 5000L, 0.0f, locListener);		
+//		tvSystemMessage.append("updateLocation ");
 	}
 
 	private void promptLocationService() {
@@ -92,7 +110,6 @@ public class MainActivity extends Activity {
 		Toast.makeText(MainActivity.this, "Open GPS now...", Toast.LENGTH_LONG).show();
 		Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 		MainActivity.this.startActivity(myIntent);
-
 	}
 
 	private class DispLocListener implements LocationListener {
@@ -128,7 +145,25 @@ public class MainActivity extends Activity {
 
 		}
 	}
+	
+//	Turn off location updates if we're paused
+	@Override
+	public void onPause() {
+		super.onPause();
+		locationManager.removeUpdates(locListener);
+//		tvSystemMessage.append("onPause ");
+	}
 
+	//	Resume location updates when we're resumed
+	@Override
+	public void onResume() {
+		super.onResume();
+		if(isLocationProviderEnabled()){
+			updateLocation();
+		}				
+//		tvSystemMessage.append("onResume ");
+	}
+	
 	private void generate5ShowingDate() {
 
 		Calendar calToday = CalendarUtil.getSystemCalendar();
@@ -196,4 +231,8 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	
+	
+	
+	
 }

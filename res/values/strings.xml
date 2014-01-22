@@ -24,6 +24,10 @@
     <string name="distance_5km">5 km</string>
     <string name="distance_10km">10 km</string>   
     
+    <string name="gps">GPS</string>
+    <string name="network">Network</string>
+    
+    
     <string name="empty_string" />
 
 </resources>

@@ -25,7 +25,9 @@
     <string name="distance_2km">2 公里</string>
     <string name="distance_5km">5 公里</string>
     <string name="distance_10km">10 公里</string>
-    
+        
+    <string name="gps">衞星定位</string>
+    <string name="network">網絡</string>
     
     <string name="empty_string" />
     

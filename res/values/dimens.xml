@@ -4,4 +4,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <color name="blue">#0000FF</color>
+    <color name="green">#00FF00</color>
+    <color name="red">#FF0000</color>
 </resources>

@@ -189,7 +189,6 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			updateLocation();
 			tvSystemMessage.append("onProviderEnabled ");
 		}
 

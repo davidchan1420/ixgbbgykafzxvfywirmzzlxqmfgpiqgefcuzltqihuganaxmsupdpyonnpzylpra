@@ -22,6 +22,7 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
@@ -32,21 +33,36 @@ public class MainActivity extends Activity {
 	private LocationManager locationManager;
 	private Criteria locationCritera;
 	private LocationListener locListener;
+	
+	private EditText textMovieName, textCinema;
+	private CheckBox cbToday, cbToday1, cbToday2, cbToday3, cbToday4;
+
 	private String providerName;
 	private Spinner spinnerDistance;
+	private Button buttonReset;
 	
+	public TextView tvProviderName;
+	public TextView tvLatitude;
+	public TextView tvLongitude;
 	public TextView tvSystemMessage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		locListener = new DispLocListener();
-
-		generate5ShowingDate();
-
+		
 		spinnerDistance = (Spinner) findViewById(R.id.spinner_distance);
-
+		textMovieName = (EditText) findViewById(R.id.text_movie_name);
+		textCinema = (EditText) findViewById(R.id.text_cinema);
+		
+		cbToday = (CheckBox) findViewById(R.id.checkBox_today);
+		cbToday1 = (CheckBox) findViewById(R.id.checkBox_today_1);
+		cbToday2 = (CheckBox) findViewById(R.id.checkBox_today_2);
+		cbToday3 = (CheckBox) findViewById(R.id.checkBox_today_3);
+		cbToday4 = (CheckBox) findViewById(R.id.checkBox_today_4);		
+		
+		locListener = new DispLocListener();
+	
 		spinnerDistance.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -62,8 +78,31 @@ public class MainActivity extends Activity {
 			}
 		});
 
+		generate5ShowingDate();
+		
+		buttonReset = (Button) findViewById(R.id.button_reset);
+		
+		buttonReset.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+
+				spinnerDistance.setSelection(0);
+				textMovieName.setText(null);
+				textCinema.setText(null);
+				cbToday.setChecked(true);
+				cbToday1.setChecked(false);
+				cbToday2.setChecked(false);
+				cbToday3.setChecked(false);
+				cbToday4.setChecked(false);				
+			}
+			
+		});
+
 		tvSystemMessage = (TextView) findViewById(R.id.tvSystemMessage);		
-		tvSystemMessage.append("onCreate ");		
+		tvSystemMessage.append("onCreate ");
+		tvLatitude = (TextView) findViewById(R.id.tvLatitude);
+		tvLongitude = (TextView) findViewById(R.id.tvLongitude);
 	}
 
 	@Override
@@ -73,6 +112,7 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	
 	private boolean isLocationProviderEnabled() {
 
 		locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
@@ -88,8 +128,8 @@ public class MainActivity extends Activity {
 
 		if (providerName != null && !providerName.equalsIgnoreCase("passive") && locationManager.isProviderEnabled(providerName)) {
 			
-//			TextView tvProviderName = (TextView) findViewById(R.id.tvProviderName);		
-//			tvProviderName.setText(providerName);			
+			TextView tvProviderName = (TextView) findViewById(R.id.tvProviderName);		
+			tvProviderName.setText(providerName);			
 			return true;
 		}
 		return false;
@@ -98,7 +138,7 @@ public class MainActivity extends Activity {
 	private void updateLocation(){
 		
 		locationManager.requestLocationUpdates(providerName, 5000L, 0.0f, locListener);		
-//		tvSystemMessage.append("updateLocation ");
+		tvSystemMessage.append("updateLocation ");
 	}
 
 	private void promptLocationService() {
@@ -129,8 +169,8 @@ public class MainActivity extends Activity {
 			if (location != null) {
 //				tvProviderStatus.setText("2");
 				// update TextViews
-//				tvLatitude.setText(Double.toString(location.getLatitude()));
-//				tvLongitude.setText(Double.toString(location.getLongitude()));
+				tvLatitude.setText(Double.toString(location.getLatitude()));
+				tvLongitude.setText(Double.toString(location.getLongitude()));
 //				tvAltitude.setText(Double.toString(location.getAltitude()));
 //				tvAccuracy.setText(Double.toString(location.getAccuracy()));
 			} else {
@@ -143,10 +183,14 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onProviderDisabled(String provider) {
+			locationManager.removeUpdates(locListener);
+			tvSystemMessage.append("onProviderDisabled ");
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
+			updateLocation();
+			tvSystemMessage.append("onProviderEnabled ");
 		}
 
 		@Override
@@ -171,7 +215,6 @@ public class MainActivity extends Activity {
 			updateLocation();
 		}else{
 			//Set Distance Spinner Value to Any Area (NULL)
-			spinnerDistance = (Spinner) findViewById(R.id.spinner_distance);
 			spinnerDistance.setSelection(0);			
 		}
 		setLocationServiceIcon();
@@ -184,27 +227,22 @@ public class MainActivity extends Activity {
 		Calendar calToday = CalendarUtil.getSystemCalendar();
 		String today = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT);
 
-		CheckBox cbToday = (CheckBox) findViewById(R.id.checkBox_today);
 		cbToday.setText(today);
 
 		calToday.add(Calendar.DATE, 1);
 		String today1 = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT);
-		CheckBox cbToday1 = (CheckBox) findViewById(R.id.checkBox_today_1);
 		cbToday1.setText(today1);
 
 		calToday.add(Calendar.DATE, 1);
 		String today2 = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT);
-		CheckBox cbToday2 = (CheckBox) findViewById(R.id.checkBox_today_2);
 		cbToday2.setText(today2);
 
 		calToday.add(Calendar.DATE, 1);
 		String today3 = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT);
-		CheckBox cbToday3 = (CheckBox) findViewById(R.id.checkBox_today_3);
 		cbToday3.setText(today3);
 
 		calToday.add(Calendar.DATE, 1);
 		String today4 = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT);
-		CheckBox cbToday4 = (CheckBox) findViewById(R.id.checkBox_today_4);
 		cbToday4.setText(today4);
 
 		CheckBoxListener listener = new CheckBoxListener();
@@ -224,12 +262,6 @@ public class MainActivity extends Activity {
 
 			if (isChecked == true)
 				return;
-
-			CheckBox cbToday = (CheckBox) findViewById(R.id.checkBox_today);
-			CheckBox cbToday1 = (CheckBox) findViewById(R.id.checkBox_today_1);
-			CheckBox cbToday2 = (CheckBox) findViewById(R.id.checkBox_today_2);
-			CheckBox cbToday3 = (CheckBox) findViewById(R.id.checkBox_today_3);
-			CheckBox cbToday4 = (CheckBox) findViewById(R.id.checkBox_today_4);
 
 			if (cbToday.isChecked() == true)
 				return;

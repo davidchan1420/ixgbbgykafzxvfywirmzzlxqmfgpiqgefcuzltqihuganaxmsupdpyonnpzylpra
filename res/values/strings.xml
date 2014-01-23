@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Movie Anywhere</string>
-    <string name="title_activity_main">Search Movie nearby</string>
+    <string name="title_activity_main">Search Movie Nearby</string>
     <string name="action_settings">Settings</string>
     
     <string name="search_by_movie_name">Enter Movie Name</string>
@@ -26,7 +26,9 @@
     
     <string name="gps">GPS</string>
     <string name="network">Network</string>
-    
+        
+    <string name="submit">Search</string>
+    <string name="reset">Reset</string>
     
     <string name="empty_string" />
 

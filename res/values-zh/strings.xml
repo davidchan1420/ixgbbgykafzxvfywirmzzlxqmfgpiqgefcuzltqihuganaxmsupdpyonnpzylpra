@@ -28,6 +28,9 @@
     <string name="gps">衞星定位</string>
     <string name="network">網絡定位</string>
     
+    <string name="submit">搜尋</string>
+    <string name="reset">重設</string>
+    
     <string name="empty_string" />
     
 </resources>

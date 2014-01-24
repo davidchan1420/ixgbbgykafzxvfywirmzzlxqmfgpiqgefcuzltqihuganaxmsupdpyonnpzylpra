@@ -22,7 +22,15 @@
     <string name="distance_1km">1 km</string>
     <string name="distance_2km">2 km</string>
     <string name="distance_5km">5 km</string>
-    <string name="distance_10km">10 km</string>   
+    <string name="distance_10km">10 km</string>
+    
+    <integer-array name="array_distance_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>        
+    </integer-array>
     
     <string name="gps">GPS</string>
     <string name="network">Network</string>

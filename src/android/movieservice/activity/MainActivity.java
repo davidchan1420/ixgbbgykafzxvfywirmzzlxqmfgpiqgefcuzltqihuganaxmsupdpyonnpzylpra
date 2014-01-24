@@ -2,6 +2,7 @@ package android.movieservice.activity;
 
 import java.util.Calendar;
 
+import movieservice.domain.SearchCriteria;
 import movieservice.util.CalendarUtil;
 import android.app.Activity;
 import android.content.Context;
@@ -39,6 +40,7 @@ public class MainActivity extends Activity {
 
 	private String providerName;
 	private Spinner spinnerDistance;
+	private Button buttonSubmit;
 	private Button buttonReset;
 	
 	public TextView tvProviderName;
@@ -86,10 +88,10 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-
-				spinnerDistance.setSelection(0);
+				resetSpinnerValue();
 				textMovieName.setText(null);
 				textCinema.setText(null);
+				
 				cbToday.setChecked(true);
 				cbToday1.setChecked(false);
 				cbToday2.setChecked(false);
@@ -98,7 +100,38 @@ public class MainActivity extends Activity {
 			}
 			
 		});
+		
+		buttonSubmit = (Button) findViewById(R.id.button_submit);
+		
+		buttonSubmit.setOnClickListener(new OnClickListener(){
 
+			@Override
+			public void onClick(View v) {
+				
+				SearchCriteria searchCriteria = new SearchCriteria();
+				
+				int selPosition = spinnerDistance.getSelectedItemPosition();
+
+				int[] arrDistances = getResources().getIntArray(R.array.array_distance_value);
+				Integer distance = arrDistances[selPosition];
+				
+				searchCriteria.setDistanceRange(distance);
+				
+				String movieName = textMovieName.getText().toString();
+				searchCriteria.setMovieName(movieName);
+				
+				String cinema = textCinema.getText().toString();
+				searchCriteria.setCinema(cinema);
+				
+				System.out.println("..");
+				
+				
+			}
+			
+		});
+		
+
+		//TODO: Below is for Debug only
 		tvSystemMessage = (TextView) findViewById(R.id.tvSystemMessage);		
 		tvSystemMessage.append("onCreate ");
 		tvLatitude = (TextView) findViewById(R.id.tvLatitude);
@@ -112,6 +145,27 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	//	Turn off location updates if we're paused
+	@Override
+	public void onPause() {
+		super.onPause();
+		locationManager.removeUpdates(locListener);
+		tvSystemMessage.append("onPause ");
+	}
+
+	//	Resume location updates when we're resumed
+	@Override
+	public void onResume() {
+		super.onResume();
+		if(isLocationProviderEnabled()){
+			updateLocation();
+		}else{
+			resetSpinnerValue();			
+		}
+		setLocationServiceIcon();
+		tvSystemMessage.append("onResume ");
+	}
+	
 	
 	private boolean isLocationProviderEnabled() {
 
@@ -142,9 +196,8 @@ public class MainActivity extends Activity {
 	}
 
 	private void promptLocationService() {
-
 		// Prompt user to enable it
-		Toast.makeText(MainActivity.this, "Open GPS now...", Toast.LENGTH_LONG).show();
+		Toast.makeText(MainActivity.this, "Open Location Service Setting...", Toast.LENGTH_LONG).show();
 		Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 		MainActivity.this.startActivity(myIntent);
 	}
@@ -177,19 +230,18 @@ public class MainActivity extends Activity {
 //				tvProviderStatus.setText("3");
 //				tvProviderStatus.setText("No location info available: " + System.currentTimeMillis());
 			}
-//			tvProviderStatus.setText("4");
-//			lm.removeUpdates(this);
 		}
 
 		@Override
 		public void onProviderDisabled(String provider) {
 			locationManager.removeUpdates(locListener);
+			resetSpinnerValue();
 			tvSystemMessage.append("onProviderDisabled ");
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			tvSystemMessage.append("onProviderEnabled ");
+//			tvSystemMessage.append("onProviderEnabled ");
 		}
 
 		@Override
@@ -198,28 +250,11 @@ public class MainActivity extends Activity {
 		}
 	}
 	
-//	Turn off location updates if we're paused
-	@Override
-	public void onPause() {
-		super.onPause();
-		locationManager.removeUpdates(locListener);
-		tvSystemMessage.append("onPause ");
-	}
-
-	//	Resume location updates when we're resumed
-	@Override
-	public void onResume() {
-		super.onResume();
-		if(isLocationProviderEnabled()){
-			updateLocation();
-		}else{
-			//Set Distance Spinner Value to Any Area (NULL)
-			spinnerDistance.setSelection(0);			
-		}
-		setLocationServiceIcon();
-		tvSystemMessage.append("onResume ");
-	}
 	
+	private void resetSpinnerValue(){		
+		//Set Distance Spinner Value to Any Area (NULL)
+		spinnerDistance.setSelection(0);			
+	}
 	
 	private void generate5ShowingDate() {
 

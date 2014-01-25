@@ -1,7 +1,9 @@
 package android.movieservice.activity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import movieservice.domain.SearchCriteria;
 import movieservice.domain.SearchCriteria.ShowingDate;
@@ -125,14 +127,17 @@ public class MainActivity extends Activity {
 				String cinema = textCinema.getText().toString();
 				searchCriteria.setCinema(cinema);
 				
-				if(cbToday.isChecked()){
-					Calendar today = CalendarUtil.getCalendarByString(cbToday.getText().toString(), CalendarUtil.DEFAULT_DATE_FORMAT);
-					SearchCriteria.ShowingDate showingDate = searchCriteria.new ShowingDate();					
-					showingDate.setShowingDate(today);		
-						
-				}
+				List<SearchCriteria.ShowingDate> listShowingDate = new ArrayList<SearchCriteria.ShowingDate>();
 				
+				packShowingDates(cbToday, searchCriteria, listShowingDate);				
+				packShowingDates(cbToday1, searchCriteria, listShowingDate);				
+				packShowingDates(cbToday2, searchCriteria, listShowingDate);				
+				packShowingDates(cbToday3, searchCriteria, listShowingDate);				
+				packShowingDates(cbToday4, searchCriteria, listShowingDate);
+								
+				searchCriteria.setShowingDates(listShowingDate);
 				
+				//TODO: Using Spring Android to submit the SearchCriteria to HTTP GET METHOD.
 			}
 			
 		});
@@ -145,6 +150,17 @@ public class MainActivity extends Activity {
 		tvLongitude = (TextView) findViewById(R.id.tvLongitude);
 	}
 
+	private void packShowingDates(final CheckBox cbDate, final SearchCriteria searchCriteria, final List<SearchCriteria.ShowingDate> listShowingDate){
+		
+		if(cbDate.isChecked()){
+			Calendar calDate = CalendarUtil.getCalendarByString(cbDate.getText().toString(), CalendarUtil.DEFAULT_DATE_FORMAT);
+			SearchCriteria.ShowingDate showingDate = searchCriteria.new ShowingDate();					
+			showingDate.setShowingDate(calDate);
+			listShowingDate.add(showingDate);						
+		}
+		
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

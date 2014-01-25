@@ -1,8 +1,10 @@
 package android.movieservice.activity;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import movieservice.domain.SearchCriteria;
+import movieservice.domain.SearchCriteria.ShowingDate;
 import movieservice.util.CalendarUtil;
 import android.app.Activity;
 import android.content.Context;
@@ -123,7 +125,12 @@ public class MainActivity extends Activity {
 				String cinema = textCinema.getText().toString();
 				searchCriteria.setCinema(cinema);
 				
-				System.out.println("..");
+				if(cbToday.isChecked()){
+					Calendar today = CalendarUtil.getCalendarByString(cbToday.getText().toString(), CalendarUtil.DEFAULT_DATE_FORMAT);
+					SearchCriteria.ShowingDate showingDate = searchCriteria.new ShowingDate();					
+					showingDate.setShowingDate(today);		
+						
+				}
 				
 				
 			}
@@ -260,7 +267,6 @@ public class MainActivity extends Activity {
 
 		Calendar calToday = CalendarUtil.getSystemCalendar();
 		String today = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT);
-
 		cbToday.setText(today);
 
 		calToday.add(Calendar.DATE, 1);

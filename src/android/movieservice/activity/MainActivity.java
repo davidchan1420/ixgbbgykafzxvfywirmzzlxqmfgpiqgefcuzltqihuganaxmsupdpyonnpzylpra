@@ -41,11 +41,15 @@ public class MainActivity extends Activity {
 	
 	private EditText textMovieName, textCinema;
 	private CheckBox cbToday, cbToday1, cbToday2, cbToday3, cbToday4;
+	private Double latitude, longitude;
 
 	private String providerName;
 	private Spinner spinnerDistance;
 	private Button buttonSubmit;
 	private Button buttonReset;
+	
+	private TextView textGps;
+	private TextView textNetwork;	
 	
 	public TextView tvProviderName;
 	public TextView tvLatitude;
@@ -57,7 +61,12 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
+		
 		spinnerDistance = (Spinner) findViewById(R.id.spinner_distance);
+		textGps = (TextView) findViewById(R.id.text_gps);
+		textNetwork = (TextView) findViewById(R.id.text_network);
+		
 		textMovieName = (EditText) findViewById(R.id.text_movie_name);
 		textCinema = (EditText) findViewById(R.id.text_cinema);
 		
@@ -121,6 +130,12 @@ public class MainActivity extends Activity {
 				
 				searchCriteria.setDistanceRange(distance);
 				
+				if(searchCriteria.getDistanceRange()!=null && latitude != null && longitude != null){
+					
+					searchCriteria.setX(latitude);
+					searchCriteria.setY(longitude);
+				}				
+				
 				String movieName = textMovieName.getText().toString();
 				searchCriteria.setMovieName(movieName);
 				
@@ -157,8 +172,7 @@ public class MainActivity extends Activity {
 			SearchCriteria.ShowingDate showingDate = searchCriteria.new ShowingDate();					
 			showingDate.setShowingDate(calDate);
 			listShowingDate.add(showingDate);						
-		}
-		
+		}		
 	}
 	
 	@Override
@@ -180,19 +194,19 @@ public class MainActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		
+		setLocationServiceIcon();
+		
 		if(isLocationProviderEnabled()){
 			updateLocation();
 		}else{
 			resetSpinnerValue();			
 		}
-		setLocationServiceIcon();
+		
 		tvSystemMessage.append("onResume ");
-	}
-	
+	}	
 	
 	private boolean isLocationProviderEnabled() {
-
-		locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
 
 		locationCritera = new Criteria();
 		locationCritera.setAccuracy(Criteria.ACCURACY_FINE);
@@ -204,7 +218,7 @@ public class MainActivity extends Activity {
 		providerName = locationManager.getBestProvider(locationCritera, true);
 
 		if (providerName != null && !providerName.equalsIgnoreCase("passive") && locationManager.isProviderEnabled(providerName)) {
-			
+			//TODO: DEBUG ONLY
 			TextView tvProviderName = (TextView) findViewById(R.id.tvProviderName);		
 			tvProviderName.setText(providerName);			
 			return true;
@@ -229,22 +243,47 @@ public class MainActivity extends Activity {
 		
 		boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		boolean isNetworkProviderEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-		
-		TextView textGps = (TextView) findViewById(R.id.text_gps);
-		TextView textNetwork = (TextView) findViewById(R.id.text_network);
-		
+	
 		textGps.setBackgroundResource(isGpsProviderEnabled==true ? R.color.green : R.color.red);
-		textNetwork.setBackgroundResource(isNetworkProviderEnabled==true ? R.color.green : R.color.red);	
+		textNetwork.setBackgroundResource(isNetworkProviderEnabled==true ? R.color.green : R.color.red);
+							 
+		buttonSubmit.setEnabled(isGpsProviderEnabled==true ? false : isNetworkProviderEnabled==true ? false : true);
 	}
 	
 	private class DispLocListener implements LocationListener {
+		
 		@Override
 		public void onLocationChanged(Location location) {
 
-//			tvProviderStatus.setText("1");
 			if (location != null) {
-//				tvProviderStatus.setText("2");
-				// update TextViews
+				
+				latitude = location.getLatitude();
+				longitude = location.getLongitude();
+				
+				String usedProvider = location.getProvider();
+				
+				if(usedProvider.equalsIgnoreCase("gps")){
+					textGps.setBackgroundResource(R.color.blue);	
+				}
+				
+				if(usedProvider.equalsIgnoreCase("network")){
+					textNetwork.setBackgroundResource(R.color.blue);	
+				}	
+				
+//				boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+//				boolean isNetworkProviderEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+//				
+//				if(isGpsProviderEnabled==true){
+//					textGps.setBackgroundResource(R.color.blue);	
+//				}
+//				
+//				if(isNetworkProviderEnabled==true){
+//					textNetwork.setBackgroundResource(R.color.blue);	
+//				}			
+				
+				buttonSubmit.setEnabled(true);
+				
+				//TODO: DEBUG ONLY
 				tvLatitude.setText(Double.toString(location.getLatitude()));
 				tvLongitude.setText(Double.toString(location.getLongitude()));
 //				tvAltitude.setText(Double.toString(location.getAltitude()));
@@ -257,8 +296,18 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			locationManager.removeUpdates(locListener);
-			resetSpinnerValue();
+			locationManager.removeUpdates(locListener);	
+			//Reset the latitude and longitude to NULL
+			latitude = null;
+			longitude = null;
+			
+			onResume();
+//			setLocationServiceIcon();			
+//			if(isLocationProviderEnabled()){
+//				updateLocation();
+//			}
+//			resetSpinnerValue();
+			
 			tvSystemMessage.append("onProviderDisabled ");
 		}
 
@@ -276,7 +325,7 @@ public class MainActivity extends Activity {
 	
 	private void resetSpinnerValue(){		
 		//Set Distance Spinner Value to Any Area (NULL)
-		spinnerDistance.setSelection(0);			
+		spinnerDistance.setSelection(0);		
 	}
 	
 	private void generate5ShowingDate() {

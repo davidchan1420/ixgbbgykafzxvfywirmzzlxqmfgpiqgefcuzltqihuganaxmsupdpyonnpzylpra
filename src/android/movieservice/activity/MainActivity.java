@@ -23,6 +23,7 @@ import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,7 +43,7 @@ public class MainActivity extends Activity {
 	private LocationManager locationManager;
 	private Criteria locationCritera;
 	private LocationListener locListener;
-	
+
 	private EditText textMovieName, textCinema;
 	private CheckBox cbToday, cbToday1, cbToday2, cbToday3, cbToday4;
 	private Double latitude, longitude;
@@ -51,51 +52,50 @@ public class MainActivity extends Activity {
 	private Spinner spinnerDistance;
 	private Button buttonSubmit;
 	private Button buttonReset;
-	
+
 	private TextView textGps;
-	private TextView textNetwork;	
-	
+	private TextView textNetwork;
+
 	public TextView tvProviderName;
 	public TextView tvLatitude;
 	public TextView tvLongitude;
 	public TextView tvSystemMessage;
 
-	public void setLocale(String lang) { 
-		Locale myLocale = new Locale(lang); 
-		Resources res = getBaseContext().getResources(); 
-		DisplayMetrics dm = res.getDisplayMetrics(); 
-		Configuration conf = res.getConfiguration(); 
-		conf.locale = myLocale; 
-		res.updateConfiguration(conf, dm); 
-		
+	public void setLocale(String lang) {
+		Locale myLocale = new Locale(lang);
+		Resources res = getBaseContext().getResources();
+		DisplayMetrics dm = res.getDisplayMetrics();
+		Configuration conf = res.getConfiguration();
+		conf.locale = myLocale;
+		res.updateConfiguration(conf, dm);
+
 		this.finish();
-		Intent refresh = getIntent(); 
+		Intent refresh = getIntent();
 		startActivity(refresh);
-	} 
-	
-	
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
-		
+
 		spinnerDistance = (Spinner) findViewById(R.id.spinner_distance);
 		textGps = (TextView) findViewById(R.id.text_gps);
 		textNetwork = (TextView) findViewById(R.id.text_network);
-		
+
 		textMovieName = (EditText) findViewById(R.id.text_movie_name);
 		textCinema = (EditText) findViewById(R.id.text_cinema);
-		
+
 		cbToday = (CheckBox) findViewById(R.id.checkBox_today);
 		cbToday1 = (CheckBox) findViewById(R.id.checkBox_today_1);
 		cbToday2 = (CheckBox) findViewById(R.id.checkBox_today_2);
 		cbToday3 = (CheckBox) findViewById(R.id.checkBox_today_3);
-		cbToday4 = (CheckBox) findViewById(R.id.checkBox_today_4);		
-		
+		cbToday4 = (CheckBox) findViewById(R.id.checkBox_today_4);
+
 		locListener = new DispLocListener();
-	
+
 		spinnerDistance.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -112,89 +112,89 @@ public class MainActivity extends Activity {
 		});
 
 		generate5ShowingDate();
-		
+
 		buttonReset = (Button) findViewById(R.id.button_reset);
-		
-		buttonReset.setOnClickListener(new OnClickListener(){
+
+		buttonReset.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				resetSpinnerValue();
 				textMovieName.setText(null);
 				textCinema.setText(null);
-				
+
 				cbToday.setChecked(true);
 				cbToday1.setChecked(false);
 				cbToday2.setChecked(false);
 				cbToday3.setChecked(false);
 				cbToday4.setChecked(false);
-				
+
 				setLocale("en");
 			}
-			
+
 		});
-		
+
 		buttonSubmit = (Button) findViewById(R.id.button_submit);
-		
-		buttonSubmit.setOnClickListener(new OnClickListener(){
+
+		buttonSubmit.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				
+
 				SearchCriteria searchCriteria = new SearchCriteria();
-				
+
 				int selPosition = spinnerDistance.getSelectedItemPosition();
 
 				int[] arrDistances = getResources().getIntArray(R.array.array_distance_value);
 				Integer distance = arrDistances[selPosition];
-				
+
 				searchCriteria.setDistanceRange(distance);
-				
-				if(searchCriteria.getDistanceRange()!=null && latitude != null && longitude != null){
-					
+
+				if (searchCriteria.getDistanceRange() != null && latitude != null && longitude != null) {
+
 					searchCriteria.setX(latitude);
 					searchCriteria.setY(longitude);
-				}				
-				
+				}
+
 				String movieName = textMovieName.getText().toString();
 				searchCriteria.setMovieName(movieName);
-				
+
 				String cinema = textCinema.getText().toString();
 				searchCriteria.setCinema(cinema);
-				
-				List<SearchCriteria.ShowingDate> listShowingDate = new ArrayList<SearchCriteria.ShowingDate>();
-				
-				packShowingDates(cbToday, searchCriteria, listShowingDate);				
-				packShowingDates(cbToday1, searchCriteria, listShowingDate);				
-				packShowingDates(cbToday2, searchCriteria, listShowingDate);				
-				packShowingDates(cbToday3, searchCriteria, listShowingDate);				
-				packShowingDates(cbToday4, searchCriteria, listShowingDate);
-								
-				searchCriteria.setShowingDates(listShowingDate);
-				
-				//TODO: Using Spring Android to submit the SearchCriteria to HTTP GET METHOD.
-			}
-			
-		});
-		
 
-		//TODO: Below is for Debug only
-		tvSystemMessage = (TextView) findViewById(R.id.tvSystemMessage);		
+				List<SearchCriteria.ShowingDate> listShowingDate = new ArrayList<SearchCriteria.ShowingDate>();
+
+				packShowingDates(cbToday, searchCriteria, listShowingDate);
+				packShowingDates(cbToday1, searchCriteria, listShowingDate);
+				packShowingDates(cbToday2, searchCriteria, listShowingDate);
+				packShowingDates(cbToday3, searchCriteria, listShowingDate);
+				packShowingDates(cbToday4, searchCriteria, listShowingDate);
+
+				searchCriteria.setShowingDates(listShowingDate);
+
+				// TODO: Using Spring Android to submit the SearchCriteria to HTTP GET METHOD.
+			}
+
+		});
+
+		// TODO: Below is for Debug only
+		tvSystemMessage = (TextView) findViewById(R.id.tvSystemMessage);
 		tvSystemMessage.append("onCreate ");
 		tvLatitude = (TextView) findViewById(R.id.tvLatitude);
 		tvLongitude = (TextView) findViewById(R.id.tvLongitude);
 	}
 
-	private void packShowingDates(final CheckBox cbDate, final SearchCriteria searchCriteria, final List<SearchCriteria.ShowingDate> listShowingDate){
-		
-		if(cbDate.isChecked()){
+	private void packShowingDates(final CheckBox cbDate, final SearchCriteria searchCriteria,
+			final List<SearchCriteria.ShowingDate> listShowingDate) {
+
+		if (cbDate.isChecked()) {
 			Calendar calDate = CalendarUtil.getCalendarByString(cbDate.getText().toString(), CalendarUtil.DEFAULT_DATE_FORMAT);
-			SearchCriteria.ShowingDate showingDate = searchCriteria.new ShowingDate();					
+			SearchCriteria.ShowingDate showingDate = searchCriteria.new ShowingDate();
 			showingDate.setShowingDate(calDate);
-			listShowingDate.add(showingDate);						
-		}		
+			listShowingDate.add(showingDate);
+		}
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -202,7 +202,20 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	//	Turn off location updates if we're paused
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+//		switch (item.getItemId()) {
+//			case R.id.action_language:
+//				Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//				startActivity(intent);
+//			break;
+//		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	// Turn off location updates if we're paused
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -210,23 +223,23 @@ public class MainActivity extends Activity {
 		tvSystemMessage.append("onPause ");
 	}
 
-	//	Resume location updates when we're resumed
+	// Resume location updates when we're resumed
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+
 		setLocationServiceIcon();
-		
-		if(isLocationProviderEnabled()){
+
+		if (isLocationProviderEnabled()) {
 			updateLocation();
-		}else{
-			resetSpinnerValue();			
+		} else {
+			resetSpinnerValue();
 		}
-		
+
 		generate5ShowingDate();
 		tvSystemMessage.append("onResume ");
-	}	
-	
+	}
+
 	private boolean isLocationProviderEnabled() {
 
 		locationCritera = new Criteria();
@@ -239,17 +252,17 @@ public class MainActivity extends Activity {
 		providerName = locationManager.getBestProvider(locationCritera, true);
 
 		if (providerName != null && !providerName.equalsIgnoreCase("passive") && locationManager.isProviderEnabled(providerName)) {
-			//TODO: DEBUG ONLY
-			TextView tvProviderName = (TextView) findViewById(R.id.tvProviderName);		
-			tvProviderName.setText(providerName);			
+			// TODO: DEBUG ONLY
+			TextView tvProviderName = (TextView) findViewById(R.id.tvProviderName);
+			tvProviderName.setText(providerName);
 			return true;
 		}
 		return false;
 	}
-	
-	private void updateLocation(){
-		
-		locationManager.requestLocationUpdates(providerName, 5000L, 0.0f, locListener);		
+
+	private void updateLocation() {
+
+		locationManager.requestLocationUpdates(providerName, 5000L, 0.0f, locListener);
 		tvSystemMessage.append("updateLocation ");
 	}
 
@@ -260,37 +273,37 @@ public class MainActivity extends Activity {
 		MainActivity.this.startActivity(myIntent);
 	}
 
-	private void setLocationServiceIcon(){
-		
+	private void setLocationServiceIcon() {
+
 		boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		boolean isNetworkProviderEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-	
-		textGps.setBackgroundResource(isGpsProviderEnabled==true ? R.color.green : R.color.red);
-		textNetwork.setBackgroundResource(isNetworkProviderEnabled==true ? R.color.green : R.color.red);
-							 
-		buttonSubmit.setEnabled(isGpsProviderEnabled==true ? false : isNetworkProviderEnabled==true ? false : true);
+
+		textGps.setBackgroundResource(isGpsProviderEnabled == true ? R.color.green : R.color.red);
+		textNetwork.setBackgroundResource(isNetworkProviderEnabled == true ? R.color.green : R.color.red);
+
+		buttonSubmit.setEnabled(isGpsProviderEnabled == true ? false : isNetworkProviderEnabled == true ? false : true);
 	}
-	
+
 	private class DispLocListener implements LocationListener {
-		
+
 		@Override
 		public void onLocationChanged(Location location) {
 
 			if (location != null) {
-				
+
 				latitude = location.getLatitude();
 				longitude = location.getLongitude();
-				
+
 				String usedProvider = location.getProvider();
-				
-				if(usedProvider.equalsIgnoreCase("gps")){
-					textGps.setBackgroundResource(R.color.light_blue);	
+
+				if (usedProvider.equalsIgnoreCase("gps")) {
+					textGps.setBackgroundResource(R.color.light_blue);
 				}
-				
-				if(usedProvider.equalsIgnoreCase("network")){
-					textNetwork.setBackgroundResource(R.color.light_blue);	
-				}	
-				
+
+				if (usedProvider.equalsIgnoreCase("network")) {
+					textNetwork.setBackgroundResource(R.color.light_blue);
+				}
+
 //				boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 //				boolean isNetworkProviderEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 //				
@@ -301,10 +314,10 @@ public class MainActivity extends Activity {
 //				if(isNetworkProviderEnabled==true){
 //					textNetwork.setBackgroundResource(R.color.blue);	
 //				}			
-				
+
 				buttonSubmit.setEnabled(true);
-				
-				//TODO: DEBUG ONLY
+
+				// TODO: DEBUG ONLY
 				tvLatitude.setText(Double.toString(location.getLatitude()));
 				tvLongitude.setText(Double.toString(location.getLongitude()));
 //				tvAltitude.setText(Double.toString(location.getAltitude()));
@@ -317,18 +330,18 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			locationManager.removeUpdates(locListener);	
-			//Reset the latitude and longitude to NULL
+			locationManager.removeUpdates(locListener);
+			// Reset the latitude and longitude to NULL
 			latitude = null;
 			longitude = null;
-			
+
 			onResume();
 //			setLocationServiceIcon();			
 //			if(isLocationProviderEnabled()){
 //				updateLocation();
 //			}
 //			resetSpinnerValue();
-			
+
 			tvSystemMessage.append("onProviderDisabled ");
 		}
 
@@ -342,13 +355,12 @@ public class MainActivity extends Activity {
 
 		}
 	}
-	
-	
-	private void resetSpinnerValue(){		
-		//Set Distance Spinner Value to Any Area (NULL)
-		spinnerDistance.setSelection(0);		
+
+	private void resetSpinnerValue() {
+		// Set Distance Spinner Value to Any Area (NULL)
+		spinnerDistance.setSelection(0);
 	}
-	
+
 	private void generate5ShowingDate() {
 
 		Calendar calToday = CalendarUtil.getSystemCalendar();
@@ -404,8 +416,4 @@ public class MainActivity extends Activity {
 		}
 	}
 
-
-	
-	
-	
 }

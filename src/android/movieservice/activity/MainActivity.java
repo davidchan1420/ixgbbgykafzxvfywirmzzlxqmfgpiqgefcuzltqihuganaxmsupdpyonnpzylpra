@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import movieservice.domain.SearchCriteria;
 import movieservice.domain.SearchCriteria.ShowingDate;
@@ -11,12 +12,15 @@ import movieservice.util.CalendarUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -56,6 +60,20 @@ public class MainActivity extends Activity {
 	public TextView tvLongitude;
 	public TextView tvSystemMessage;
 
+	public void setLocale(String lang) { 
+		Locale myLocale = new Locale(lang); 
+		Resources res = getBaseContext().getResources(); 
+		DisplayMetrics dm = res.getDisplayMetrics(); 
+		Configuration conf = res.getConfiguration(); 
+		conf.locale = myLocale; 
+		res.updateConfiguration(conf, dm); 
+		
+		this.finish();
+		Intent refresh = getIntent(); 
+		startActivity(refresh);
+	} 
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -109,7 +127,9 @@ public class MainActivity extends Activity {
 				cbToday1.setChecked(false);
 				cbToday2.setChecked(false);
 				cbToday3.setChecked(false);
-				cbToday4.setChecked(false);				
+				cbToday4.setChecked(false);
+				
+				setLocale("en");
 			}
 			
 		});
@@ -203,6 +223,7 @@ public class MainActivity extends Activity {
 			resetSpinnerValue();			
 		}
 		
+		generate5ShowingDate();
 		tvSystemMessage.append("onResume ");
 	}	
 	
@@ -263,11 +284,11 @@ public class MainActivity extends Activity {
 				String usedProvider = location.getProvider();
 				
 				if(usedProvider.equalsIgnoreCase("gps")){
-					textGps.setBackgroundResource(R.color.blue);	
+					textGps.setBackgroundResource(R.color.light_blue);	
 				}
 				
 				if(usedProvider.equalsIgnoreCase("network")){
-					textNetwork.setBackgroundResource(R.color.blue);	
+					textNetwork.setBackgroundResource(R.color.light_blue);	
 				}	
 				
 //				boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -383,7 +404,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	
+
 	
 	
 	

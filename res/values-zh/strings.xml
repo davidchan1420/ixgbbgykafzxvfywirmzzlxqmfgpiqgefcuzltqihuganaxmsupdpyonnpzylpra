@@ -3,7 +3,7 @@
 
     <string name="app_name">電影隨處看</string>
     <string name="title_activity_main">搜尋附近電影</string>
-    <string name="action_settings">設定</string>
+    <string name="action_language">語言</string>
     
     <string name="search_by_movie_name">輸入電影名稱</string>
     <string name="search_by_cinema">輸入戲院</string>

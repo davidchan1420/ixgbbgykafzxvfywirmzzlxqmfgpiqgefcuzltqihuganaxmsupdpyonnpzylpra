@@ -9,12 +9,14 @@
         android:id="@+id/radio_english"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textSize="18sp"
         android:text="@+string/english" />
 
     <RadioButton
         android:id="@+id/radio_chinese"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textSize="18sp"
         android:text="@+string/chinese" />
 
 </RadioGroup>

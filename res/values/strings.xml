@@ -3,9 +3,15 @@
 
     <string name="app_name">Movie Anywhere</string>
     <string name="title_activity_main">Search Movie Nearby</string>
+    
+    <string name="choose_language">Please select language</string>
     <string name="language">Language</string>
+    
     <string name="english">English</string>
     <string name="chinese">Chinese</string>
+
+    <string name="en">en</string>
+    <string name="zh">zh</string>
     
     <string name="search_by_movie_name">Enter Movie Name</string>
     <string name="search_by_cinema">Enter Cinema</string>

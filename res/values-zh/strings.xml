@@ -3,6 +3,8 @@
 
     <string name="app_name">電影隨處看</string>
     <string name="title_activity_main">搜尋附近電影</string>
+    
+    <string name="choose_language">請選擇語言</string>
     <string name="language">語言</string>
     <string name="english">英語</string>
     <string name="chinese">中文</string>

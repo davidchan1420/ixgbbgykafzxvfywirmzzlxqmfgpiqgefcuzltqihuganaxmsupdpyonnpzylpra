@@ -18,6 +18,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.movieservice.dialog.LanguageDialogFragment;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
@@ -60,19 +61,6 @@ public class MainActivity extends Activity {
 	public TextView tvLatitude;
 	public TextView tvLongitude;
 	public TextView tvSystemMessage;
-
-	public void setLocale(String lang) {
-		Locale myLocale = new Locale(lang);
-		Resources res = getBaseContext().getResources();
-		DisplayMetrics dm = res.getDisplayMetrics();
-		Configuration conf = res.getConfiguration();
-		conf.locale = myLocale;
-		res.updateConfiguration(conf, dm);
-
-		this.finish();
-		Intent refresh = getIntent();
-		startActivity(refresh);
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +117,6 @@ public class MainActivity extends Activity {
 				cbToday3.setChecked(false);
 				cbToday4.setChecked(false);
 
-				setLocale("en");
 			}
 
 		});
@@ -205,12 +192,12 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-//		switch (item.getItemId()) {
-//			case R.id.action_language:
-//				Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//				startActivity(intent);
-//			break;
-//		}
+		switch (item.getItemId()) {
+			case R.id.item_language:
+				new LanguageDialogFragment(this);
+				
+			break;
+		}
 
 		return super.onOptionsItemSelected(item);
 	}

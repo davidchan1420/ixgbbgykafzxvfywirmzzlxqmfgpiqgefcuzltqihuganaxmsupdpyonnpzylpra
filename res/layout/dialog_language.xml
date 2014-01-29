@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/radioGroup"
+    android:id="@+id/radio_language"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
 
     <RadioButton
-        android:id="@+id/radio1"
+        android:id="@+id/radio_english"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@+string/english" />
 
     <RadioButton
-        android:id="@+id/radio2"
+        android:id="@+id/radio_chinese"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@+string/chinese" />

@@ -350,24 +350,26 @@ public class MainActivity extends Activity {
 
 	private void generate5ShowingDate() {
 
+		Locale locale = getResources().getConfiguration().locale;
+		
 		Calendar calToday = CalendarUtil.getSystemCalendar();
-		String today = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT);
+		String today = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT, locale);
 		cbToday.setText(today);
 
 		calToday.add(Calendar.DATE, 1);
-		String today1 = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT);
+		String today1 = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT, locale);
 		cbToday1.setText(today1);
 
 		calToday.add(Calendar.DATE, 1);
-		String today2 = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT);
+		String today2 = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT, locale);
 		cbToday2.setText(today2);
 
 		calToday.add(Calendar.DATE, 1);
-		String today3 = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT);
+		String today3 = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT, locale);
 		cbToday3.setText(today3);
 
 		calToday.add(Calendar.DATE, 1);
-		String today4 = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT);
+		String today4 = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT, locale);
 		cbToday4.setText(today4);
 
 		CheckBoxListener listener = new CheckBoxListener();

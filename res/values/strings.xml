@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Movie Anywhere</string>
-    <string name="title_activity_main">Search Movie Nearby</string>
+    <string name="app_name">Movies Anywhere</string>
+<!--     <string name="title_activity_main">Search Movie Nearby</string> -->
     
     <string name="choose_language">Please select language</string>
     <string name="language">Language</string>

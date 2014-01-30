@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">電影隨處看</string>
-    <string name="title_activity_main">搜尋附近電影</string>
+<!--     <string name="app_name">電影隨處看</string> -->
+<!--     <string name="title_activity_main">搜尋附近電影</string> -->
     
     <string name="choose_language">請選擇語言</string>
     <string name="language">語言</string>

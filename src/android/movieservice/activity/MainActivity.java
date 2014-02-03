@@ -1,43 +1,48 @@
 package android.movieservice.activity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import movieservice.domain.Movie;
 import movieservice.domain.SearchCriteria;
-import movieservice.domain.SearchCriteria.ShowingDate;
 import movieservice.util.CalendarUtil;
+
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.movieservice.dialog.LanguageDialogFragment;
+import android.movieservice.util.ConstantUtil;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.DisplayMetrics;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 public class MainActivity extends Activity {
 
@@ -121,6 +126,8 @@ public class MainActivity extends Activity {
 
 		});
 
+		final Gson gson = new Gson();
+		
 		buttonSubmit = (Button) findViewById(R.id.button_submit);
 
 		buttonSubmit.setOnClickListener(new OnClickListener() {
@@ -129,6 +136,9 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 
 				SearchCriteria searchCriteria = new SearchCriteria();
+				
+				Locale locale = getResources().getConfiguration().locale;
+				searchCriteria.setLanguage(locale.getLanguage());				
 
 				int selPosition = spinnerDistance.getSelectedItemPosition();
 
@@ -160,6 +170,10 @@ public class MainActivity extends Activity {
 				searchCriteria.setShowingDates(listShowingDate);
 
 				// TODO: Using Spring Android to submit the SearchCriteria to HTTP GET METHOD.
+				SearchMoviesTask task = new SearchMoviesTask();
+				
+				String strSearchCriteria = gson.toJson(searchCriteria);
+				task.execute(strSearchCriteria);
 			}
 
 		});
@@ -171,6 +185,45 @@ public class MainActivity extends Activity {
 		tvLongitude = (TextView) findViewById(R.id.tvLongitude);
 	}
 
+	
+	private class SearchMoviesTask extends AsyncTask<String, Void, List<Movie>> {		
+	
+		@Override
+		protected List<Movie> doInBackground(String ... params) {
+
+			String url = ConstantUtil.REMOTEHOST_ANDROID + "/movie/getMovies/{searchCriteria}";
+			
+			// Create a new RestTemplate instance
+			RestTemplate restTemplate = new RestTemplate();
+
+			// Add the Jackson message converter
+			restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
+//			restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+			// Make the HTTP GET request, marshaling the response from JSON to an array of Events
+			Movie[] arrEvents = restTemplate.getForObject(url, Movie[].class, params[0]);
+			
+			List<Movie> movies = Arrays.asList(arrEvents);
+			
+			
+			return movies;
+			
+		}
+		
+		@Override
+		protected void onPostExecute(List<Movie> result) {
+			
+			for(int i=0; i < result.size(); i++){
+				
+				Movie movie = (Movie) result.get(i);				
+				System.out.println("Movie Name: " + movie.getMovieName() + ", Cinema: " + movie.getCinema() + ", Distance: " + movie.getRelativeDistance() + ", Time: " + movie.getShowingDate().getTime() + ", Fee: $" + movie.getFee());
+			}					
+		}
+		
+		
+		
+	}
+	
 	private void packShowingDates(final CheckBox cbDate, final SearchCriteria searchCriteria,
 			final List<SearchCriteria.ShowingDate> listShowingDate) {
 

@@ -3,16 +3,16 @@ package android.movieservice.activity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 import movieservice.domain.Movie;
 import movieservice.domain.SearchCriteria;
+import movieservice.domain.Temp1;
 import movieservice.util.CalendarUtil;
+import movieservice.util.Coordinate;
 
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import android.app.Activity;
@@ -26,6 +26,7 @@ import android.movieservice.dialog.LanguageDialogFragment;
 import android.movieservice.util.ConstantUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -173,7 +174,32 @@ public class MainActivity extends Activity {
 				SearchMoviesTask task = new SearchMoviesTask();
 				
 				String strSearchCriteria = gson.toJson(searchCriteria);
-				task.execute(strSearchCriteria);
+//				task.execute(strSearchCriteria);
+				
+				Movie[] arrMovie = new Movie[1];
+			
+				Movie movie = new Movie();
+				movie.setMovieName("movieName1");
+				movie.setCinema("cinema1");
+				
+				Calendar cal = CalendarUtil.getSystemCalendar();
+				movie.setShowingDate(cal);
+				movie.setRelativeDistance(44D);
+				
+				Coordinate coordinate = new Coordinate();
+				coordinate.setCinemaChinese("cinemaChinese1");
+				coordinate.setCinemaEnglish("cinemaEnglish1");
+				coordinate.setX(1D);
+				coordinate.setY(1D);		
+				movie.setCoordinate(coordinate);
+				
+				arrMovie[0] = movie;
+				
+				Intent intent = new Intent(getApplicationContext(), ResultActivity.class);				
+				
+				intent.putExtra("test", arrMovie);
+				
+				startActivity(intent);
 			}
 
 		});
@@ -186,12 +212,15 @@ public class MainActivity extends Activity {
 	}
 
 	
-	private class SearchMoviesTask extends AsyncTask<String, Void, List<Movie>> {		
+	private class SearchMoviesTask extends AsyncTask<String, Void, Movie[]> {		
+//	private class SearchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
 	
 		@Override
-		protected List<Movie> doInBackground(String ... params) {
+		protected Movie[] doInBackground(String ... params) {
+//		protected List<Movie> doInBackground(String ... params) {
 
-			String url = ConstantUtil.REMOTEHOST_ANDROID + "/movie/getMovies/{searchCriteria}";
+			//String url = ConstantUtil.REMOTEHOST_ANDROID + "/movie/getMovies/{searchCriteria}";
+			String url = ConstantUtil.REMOTEHOST_ANDROID + "/movie/getTest/{searchCriteria}";
 			
 			// Create a new RestTemplate instance
 			RestTemplate restTemplate = new RestTemplate();
@@ -201,26 +230,36 @@ public class MainActivity extends Activity {
 //			restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
 			// Make the HTTP GET request, marshaling the response from JSON to an array of Events
-			Movie[] arrEvents = restTemplate.getForObject(url, Movie[].class, params[0]);
+			Movie[] arrMovies = restTemplate.getForObject(url, Movie[].class, params[0]);
+			return arrMovies;
 			
-			List<Movie> movies = Arrays.asList(arrEvents);
-			
-			
-			return movies;
-			
+//			List<Movie> movies = Arrays.asList(arrMovies);			
+//			return movies;		
 		}
 		
 		@Override
-		protected void onPostExecute(List<Movie> result) {
+		protected void onPostExecute(Movie[] arrMovies) {
+//		protected void onPostExecute(List<Movie> arrMovies) {
 			
-			for(int i=0; i < result.size(); i++){
-				
-				Movie movie = (Movie) result.get(i);				
-				System.out.println("Movie Name: " + movie.getMovieName() + ", Cinema: " + movie.getCinema() + ", Distance: " + movie.getRelativeDistance() + ", Time: " + movie.getShowingDate().getTime() + ", Fee: $" + movie.getFee());
-			}					
-		}
-		
-		
+//			List<Movie> movies = Arrays.asList(arrMovies);
+//			
+//			for(int i=0; i < result.size(); i++){
+//				
+//				Movie movie = (Movie) result.get(i);				
+//				System.out.println("Movie Name: " + movie.getMovieName() + ", Cinema: " + movie.getCinema() + ", Distance: " + movie.getRelativeDistance() + ", Time: " + movie.getShowingDate().getTime() + ", Fee: $" + movie.getFee());
+//			}			
+			
+			Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+			
+			
+//			intent.putParcelableArrayListExtra("searchResult", (ArrayList<? extends Parcelable>) movies);
+			
+			intent.putExtra("searchResult", arrMovies);
+			
+			
+			startActivity(intent);
+			
+		}	
 		
 	}
 	

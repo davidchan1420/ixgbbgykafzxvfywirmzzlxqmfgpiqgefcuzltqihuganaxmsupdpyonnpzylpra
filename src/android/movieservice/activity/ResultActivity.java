@@ -10,6 +10,7 @@ import movieservice.domain.Temp1;
 import movieservice.util.CalendarUtil;
 import android.app.Activity;
 import android.content.Intent;
+import android.movieservice.util.ConstantUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.widget.TableLayout;
@@ -36,29 +37,17 @@ public class ResultActivity extends Activity {
 	@Override
 	public void onNewIntent(Intent intent) {
 		
-		Parcelable[] arrParcelable = intent.getParcelableArrayExtra("test");
+		Parcelable[] arrParcelable= (Parcelable[]) intent.getParcelableArrayExtra("searchResult");
 		
-		Movie[] arrMovie = new Movie[arrParcelable.length];
-		
-		System.out.println(arrMovie);
-		
-		
-//		Parcelable[] arrParcelable= (Parcelable[]) intent.getParcelableArrayExtra("searchResult");
-		
-//		Movie[] arrMovies = new Movie[arrParcelable.length];
-		
+		Movie[] arrMovies = new Movie[arrParcelable.length];
 	
-//		Movie[] arrMovies= (Movie[]) intent.getParcelableArrayExtra("searchResult");
+		for(int i=0; i < arrParcelable.length; i++){
+			arrMovies[i] = (Movie) arrParcelable[i];
+		}
 		
-//		for(int i=0; i < arrParcelable.length; i++){
-//			arrMovies[i] = (Movie) arrParcelable[i];
-//		}
-		
-//		List<Movie> movies = Arrays.asList(arrMovies);
-			
-//		ArrayList<Movie> movies = intent.getParcelableArrayListExtra("searchResult");
-		
-//		constructResultTable(movies);
+		List<Movie> movies = Arrays.asList(arrMovies);
+	
+		constructResultTable(movies);
 	}
 	
 	private void constructResultTable(List<Movie> movies) {
@@ -94,15 +83,15 @@ public class ResultActivity extends Activity {
 			textCinema.setText(movie.getCinema());
 
 			TextView textDistance = (TextView) tableRowMovieDetail.findViewById(R.id.relative_distance);
-			textCinema.setText(movie.getRelativeDistance().toString());
+			textDistance.setText(movie.getRelativeDistance() != null ? movie.getRelativeDistance().toString() : ConstantUtil.NOT_AVAILABLE);
 						
 			Locale locale = getResources().getConfiguration().locale;
 			String showingDate = CalendarUtil.getFormatDateString(movie.getShowingDate(), resultDateTimeFormat, locale);
 			TextView textShowingDate = (TextView) tableRowMovieDetail.findViewById(R.id.showing_date);
-			textCinema.setText(showingDate);
+			textShowingDate.setText(showingDate);
 
 			TextView textFee = (TextView) tableRowMovieDetail.findViewById(R.id.fee);
-			textCinema.setText(movie.getFee());
+			textFee.setText(movie.getFee() != null ? movie.getFee().toString() : ConstantUtil.NOT_AVAILABLE);
 			
 			tableResult.addView(tableRowMovieDetail);
 		}

@@ -1,9 +1,13 @@
 package android.movieservice.activity;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.zip.GZIPInputStream;
 
 import movieservice.domain.Movie;
 import movieservice.domain.Temp1;
@@ -37,13 +41,42 @@ public class ResultActivity extends Activity {
 	@Override
 	public void onNewIntent(Intent intent) {
 		
-		Parcelable[] arrParcelable= (Parcelable[]) intent.getParcelableArrayExtra("searchResult");
+//		Parcelable[] arrParcelable= (Parcelable[]) intent.getParcelableArrayExtra("searchResult");
 		
-		Movie[] arrMovies = new Movie[arrParcelable.length];
-	
-		for(int i=0; i < arrParcelable.length; i++){
-			arrMovies[i] = (Movie) arrParcelable[i];
+		byte[] bytes = (byte[]) intent.getByteArrayExtra("searchResult");
+		int size = intent.getIntExtra("searchResultSize", 0);
+		
+		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+		GZIPInputStream gzipIn;
+		ObjectInputStream objectIn;
+		Movie[] arrMovies = new Movie[size];
+		
+		try {
+			gzipIn = new GZIPInputStream(bais);
+			objectIn = new ObjectInputStream(gzipIn);			
+			
+			for(int i=0; i < size; i++){
+			
+				Parcelable parcelable = (Parcelable) objectIn.readObject();
+				Movie movie = (Movie) parcelable;
+				
+				arrMovies[i] = movie;						
+			}		
+			
+			objectIn.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e){
+			e.printStackTrace();
 		}
+		
+//		Movie[] arrMovies = new Movie[arrParcelable.length];
+//	
+//		for(int i=0; i < arrParcelable.length; i++){
+//			arrMovies[i] = (Movie) arrParcelable[i];
+//		}
 		
 		List<Movie> movies = Arrays.asList(arrMovies);
 	

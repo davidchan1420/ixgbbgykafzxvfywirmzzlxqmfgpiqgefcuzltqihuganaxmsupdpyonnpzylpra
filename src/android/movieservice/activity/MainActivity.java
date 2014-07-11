@@ -1,10 +1,14 @@
 package android.movieservice.activity;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.zip.GZIPOutputStream;
 
 import movieservice.domain.Movie;
 import movieservice.domain.SearchCriteria;
@@ -224,13 +228,34 @@ public class MainActivity extends Activity {
 //				System.out.println("Movie Name: " + movie.getMovieName() + ", Cinema: " + movie.getCinema() + ", Distance: " + movie.getRelativeDistance() + ", Time: " + movie.getShowingDate().getTime() + ", Fee: $" + movie.getFee());
 //			}			
 			
-			Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
-			
+			Intent intent = new Intent(getApplicationContext(), ResultActivity.class);			
 			
 //			intent.putParcelableArrayListExtra("searchResult", (ArrayList<? extends Parcelable>) movies);
 			
-			intent.putExtra("searchResult", arrMovies);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			GZIPOutputStream gzipOut;
+			ObjectOutputStream objectOut;
 			
+			try {
+				gzipOut = new GZIPOutputStream(baos);
+				objectOut = new ObjectOutputStream(gzipOut);
+
+				for(int i=0; i < arrMovies.length; i++){
+					
+					objectOut.writeObject(arrMovies[i]);
+				}
+				objectOut.close();
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
+
+			
+			byte[] bytes = baos.toByteArray();
+			
+//			intent.putExtra("searchResult", arrMovies);
+			intent.putExtra("searchResult", bytes);
+			intent.putExtra("searchResultSize", arrMovies.length);
 			
 			startActivity(intent);
 			

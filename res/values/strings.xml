@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Movies Anywhere</string>
-    <!-- <string name="title_activity_main">Search Movie Nearby</string> -->
+<!--     <string name="title_activity_main">Movies Anywhere</string> -->
 
     <string name="choose_language">Please select language</string>
     <string name="language">Language</string>
@@ -41,9 +41,13 @@
     <string name="network">Network</string>
     <string name="submit">Search</string>
     <string name="reset">Reset</string>
+    
     <string name="empty_string" />
-    <string name="title_activity_result">ResultActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    
+    <string name="empty_result">No movies matched your search criteria.</string>
+    
+    <string name="title_activity_result">Movie Search Result</string>
+<!--     <string name="action_settings">Settings</string> -->
+<!--     <string name="hello_world">Hello world!</string> -->
 
 </resources>

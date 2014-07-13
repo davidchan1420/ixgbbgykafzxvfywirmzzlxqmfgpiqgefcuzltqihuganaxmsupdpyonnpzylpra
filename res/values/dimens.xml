@@ -8,5 +8,8 @@
     <color name="green">#00FF00</color>
     <color name="red">#FF0000</color>
     
+    <color name="result_table_moviename_background">#51A9FF</color>
+    <color name="result_table_cinemadetail_background">#51FFA9</color>    
+    
     
 </resources>

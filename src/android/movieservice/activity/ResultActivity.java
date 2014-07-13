@@ -1,9 +1,12 @@
 package android.movieservice.activity;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+
+import org.springframework.util.StringUtils;
 
 import movieservice.domain.Movie;
 import movieservice.domain.Temp1;
@@ -53,47 +56,61 @@ public class ResultActivity extends Activity {
 	private void constructResultTable(List<Movie> movies) {
 
 		TableLayout tableResult = (TableLayout) findViewById(R.id.tablelayout_result);
-		String previousMovieName = null;
-		String resultDateTimeFormat = "MM-dd HH:mm (EEE)";
+		String previousMovieName = ConstantUtil.EMPTY_STRING;
+		String previousCinema = ConstantUtil.EMPTY_STRING;
+		
+		String resultDateTimeFormat = "MMM-dd HH:mm (EEE)";
+		Locale locale = getResources().getConfiguration().locale;
+		
+		DecimalFormat decimalFormat = new DecimalFormat("#.#");
 		
 		for (int i = 0; i < movies.size(); i++) {
 
-			Movie movie = movies.get(i);
-			
+			Movie movie = movies.get(i);			
 			
 			TableRow tableRowMovieName = (TableRow) getLayoutInflater().inflate(R.layout.fragment_result_table_row_moviename, tableResult, false);
+			TableRow tableRowCinemaDetail = (TableRow) getLayoutInflater().inflate(R.layout.fragment_result_table_row_cinemadetail, tableResult, false);
 			TableRow tableRowMovieDetail = (TableRow) getLayoutInflater().inflate(R.layout.fragment_result_table_row_moviedetail, tableResult, false);
 			
-//			int rowColor;
-//			if (i < 3) {
-//				rowColor = R.color.ranking_top;
-//			} else if (i < 15) {
-//				rowColor = R.color.ranking_middle;
-//			} else {
-//				rowColor = R.color.ranking_other;
-//			}
-//			tableRow.setBackgroundColor(getResources().getColor(rowColor));
-			if(previousMovieName == null || !previousMovieName.equalsIgnoreCase(movie.getMovieName())){
+//			tableRowMovieName.setBackgroundColor(getResources().getColor(i%2 == 0 ? R.color.result_table_background_even : R.color.result_table_background_odd));
+//			tableRowMovieDetail.setBackgroundColor(getResources().getColor(i%2 == 0 ? R.color.result_table_background_even : R.color.result_table_background_odd));
+			
+			tableRowMovieName.setBackgroundColor(getResources().getColor(R.color.result_table_moviename_background));
+			tableRowCinemaDetail.setBackgroundColor(getResources().getColor(R.color.result_table_cinemadetail_background));
+			
+			if(!previousMovieName.equalsIgnoreCase(movie.getMovieName())){
 				TextView textMovieName = (TextView) tableRowMovieName.findViewById(R.id.movie_name);
 				textMovieName.setText(movie.getMovieName());
 				tableResult.addView(tableRowMovieName);
+
 			}
 
-			TextView textCinema = (TextView) tableRowMovieDetail.findViewById(R.id.cinema);
-			textCinema.setText(movie.getCinema());
+			if(!previousMovieName.equalsIgnoreCase(movie.getMovieName()) || !previousCinema.equalsIgnoreCase(movie.getCinema())){
+				TextView textCinema = (TextView) tableRowCinemaDetail.findViewById(R.id.cinema);
+				textCinema.setText(movie.getCinema());
+				
+				TextView textDistance = (TextView) tableRowCinemaDetail.findViewById(R.id.relative_distance);				
+				StringBuilder distance = new StringBuilder();			
+				distance.append(decimalFormat.format(movie.getRelativeDistance())).append(ConstantUtil.KILOMETER);			
+				textDistance.setText(distance);
+				tableResult.addView(tableRowCinemaDetail);
 
-			TextView textDistance = (TextView) tableRowMovieDetail.findViewById(R.id.relative_distance);
-			textDistance.setText(movie.getRelativeDistance() != null ? movie.getRelativeDistance().toString() : ConstantUtil.NOT_AVAILABLE);
-						
-			Locale locale = getResources().getConfiguration().locale;
+			}			
+									
 			String showingDate = CalendarUtil.getFormatDateString(movie.getShowingDate(), resultDateTimeFormat, locale);
 			TextView textShowingDate = (TextView) tableRowMovieDetail.findViewById(R.id.showing_date);
 			textShowingDate.setText(showingDate);
 
 			TextView textFee = (TextView) tableRowMovieDetail.findViewById(R.id.fee);
-			textFee.setText(movie.getFee() != null ? movie.getFee().toString() : ConstantUtil.NOT_AVAILABLE);
+			
+			StringBuilder movieFee = new StringBuilder(ConstantUtil.DOLLAR_SIGN);
+			movieFee.append(movie.getFee() != null ? movie.getFee().toString() : ConstantUtil.NOT_AVAILABLE);			
+			textFee.setText(movieFee);			
 			
 			tableResult.addView(tableRowMovieDetail);
+			
+			previousMovieName = movie.getMovieName();
+			previousCinema = movie.getCinema();
 		}
 
 	}

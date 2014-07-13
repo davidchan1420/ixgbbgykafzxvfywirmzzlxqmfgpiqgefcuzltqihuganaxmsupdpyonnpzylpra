@@ -16,7 +16,9 @@ import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
@@ -71,7 +73,9 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setTitle(R.string.app_name);
+		setContentView(R.layout.activity_main);		
+		
 
 		locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -128,7 +132,7 @@ public class MainActivity extends Activity {
 		});
 
 		final Gson gson = new Gson();
-		
+
 		buttonSubmit = (Button) findViewById(R.id.button_submit);
 
 		buttonSubmit.setOnClickListener(new OnClickListener() {
@@ -137,9 +141,9 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 
 				SearchCriteria searchCriteria = new SearchCriteria();
-				
+
 				Locale locale = getResources().getConfiguration().locale;
-				searchCriteria.setLanguage(locale.getLanguage());				
+				searchCriteria.setLanguage(locale.getLanguage());
 
 				int selPosition = spinnerDistance.getSelectedItemPosition();
 
@@ -148,7 +152,8 @@ public class MainActivity extends Activity {
 
 				searchCriteria.setDistanceRange(distance);
 
-				if (searchCriteria.getDistanceRange() != null && latitude != null && longitude != null) {
+//				if (searchCriteria.getDistanceRange() != null && latitude != null && longitude != null) {
+				if (latitude != null && longitude != null) {
 
 					searchCriteria.setX(latitude);
 					searchCriteria.setY(longitude);
@@ -172,10 +177,10 @@ public class MainActivity extends Activity {
 
 				// TODO: Using Spring Android to submit the SearchCriteria to HTTP GET METHOD.
 				SearchMoviesTask task = new SearchMoviesTask();
-				
+
 				String strSearchCriteria = gson.toJson(searchCriteria);
 				task.execute(strSearchCriteria);
-				
+
 			}
 
 		});
@@ -187,16 +192,15 @@ public class MainActivity extends Activity {
 		tvLongitude = (TextView) findViewById(R.id.tvLongitude);
 	}
 
-	
-	private class SearchMoviesTask extends AsyncTask<String, Void, Movie[]> {		
+	private class SearchMoviesTask extends AsyncTask<String, Void, Movie[]> {
 //	private class SearchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
-	
+
 		@Override
-		protected Movie[] doInBackground(String ... params) {
+		protected Movie[] doInBackground(String... params) {
 //		protected List<Movie> doInBackground(String ... params) {
 
 			String url = ConstantUtil.REMOTEHOST_ANDROID + "/movie/getMovies/{searchCriteria}";
-			
+
 			// Create a new RestTemplate instance
 			RestTemplate restTemplate = new RestTemplate();
 
@@ -207,15 +211,15 @@ public class MainActivity extends Activity {
 			// Make the HTTP GET request, marshaling the response from JSON to an array of Events
 			Movie[] arrMovies = restTemplate.getForObject(url, Movie[].class, params[0]);
 			return arrMovies;
-			
+
 //			List<Movie> movies = Arrays.asList(arrMovies);			
 //			return movies;		
 		}
-		
+
 		@Override
 		protected void onPostExecute(Movie[] arrMovies) {
 //		protected void onPostExecute(List<Movie> arrMovies) {
-			
+
 //			List<Movie> movies = Arrays.asList(arrMovies);
 //			
 //			for(int i=0; i < result.size(); i++){
@@ -223,21 +227,24 @@ public class MainActivity extends Activity {
 //				Movie movie = (Movie) result.get(i);				
 //				System.out.println("Movie Name: " + movie.getMovieName() + ", Cinema: " + movie.getCinema() + ", Distance: " + movie.getRelativeDistance() + ", Time: " + movie.getShowingDate().getTime() + ", Fee: $" + movie.getFee());
 //			}			
-			
-			Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
-			
-			
-//			intent.putParcelableArrayListExtra("searchResult", (ArrayList<? extends Parcelable>) movies);
-			
-			intent.putExtra("searchResult", arrMovies);
-			
-			
-			startActivity(intent);
-			
-		}	
-		
+
+			if (arrMovies.length == 0) {
+
+				Toast.makeText(getApplicationContext(), R.string.empty_result, Toast.LENGTH_SHORT).show();
+			} else {
+
+				Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+
+//				intent.putParcelableArrayListExtra("searchResult", (ArrayList<? extends Parcelable>) movies);
+
+				intent.putExtra("searchResult", arrMovies);
+
+				startActivity(intent);
+			}
+		}
+
 	}
-	
+
 	private void packShowingDates(final CheckBox cbDate, final SearchCriteria searchCriteria,
 			final List<SearchCriteria.ShowingDate> listShowingDate) {
 
@@ -260,9 +267,9 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
-			case R.id.item_language:
-				new LanguageDialogFragment(this);
-				
+		case R.id.item_language:
+			new LanguageDialogFragment(this);
+
 			break;
 		}
 
@@ -418,7 +425,7 @@ public class MainActivity extends Activity {
 	private void generate5ShowingDate() {
 
 		Locale locale = getResources().getConfiguration().locale;
-		
+
 		Calendar calToday = CalendarUtil.getSystemCalendar();
 		String today = CalendarUtil.getFormatDateString(calToday, CalendarUtil.DEFAULT_DATE_FORMAT, locale);
 		cbToday.setText(today);

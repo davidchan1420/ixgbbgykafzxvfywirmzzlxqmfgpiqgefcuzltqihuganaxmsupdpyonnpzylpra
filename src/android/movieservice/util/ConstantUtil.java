@@ -11,5 +11,4 @@ public class ConstantUtil {
 	public static final String NOT_AVAILABLE = "N/A";
 
 
-
 }

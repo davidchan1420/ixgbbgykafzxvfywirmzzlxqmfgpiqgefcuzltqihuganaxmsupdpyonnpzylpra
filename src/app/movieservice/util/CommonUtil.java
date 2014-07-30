@@ -1,4 +1,4 @@
-package android.movieservice.util;
+package app.movieservice.util;
 
 
 public class CommonUtil {

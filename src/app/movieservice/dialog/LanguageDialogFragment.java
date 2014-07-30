@@ -1,4 +1,4 @@
-package android.movieservice.dialog;
+package app.movieservice.dialog;
 
 import java.util.Locale;
 import android.app.Activity;
@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.movieservice.activity.R;
+import app.movieservice.activity.R;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;

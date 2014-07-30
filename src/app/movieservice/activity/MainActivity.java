@@ -1,4 +1,4 @@
-package android.movieservice.activity;
+package app.movieservice.activity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -28,8 +28,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.movieservice.dialog.LanguageDialogFragment;
-import android.movieservice.util.ConstantUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -48,6 +46,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import app.movieservice.dialog.LanguageDialogFragment;
+import app.movieservice.util.ConstantUtil;
 
 import com.google.gson.Gson;
 

@@ -1,11 +1,9 @@
-package android.movieservice.activity;
+package app.movieservice.activity;
 
 import java.text.DecimalFormat;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,12 +18,12 @@ import movieservice.domain.Temp1;
 import movieservice.util.CalendarUtil;
 import android.app.Activity;
 import android.content.Intent;
-import android.movieservice.util.ConstantUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import app.movieservice.util.ConstantUtil;
 
 public class ResultActivity extends Activity {
 

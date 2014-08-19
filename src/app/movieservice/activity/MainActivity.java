@@ -337,7 +337,9 @@ public class MainActivity extends Activity {
 		locationCritera.setCostAllowed(true);
 		locationCritera.setPowerRequirement(Criteria.NO_REQUIREMENT);
 
-		providerName = locationManager.getBestProvider(locationCritera, true);
+		providerName = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) ? locationManager.getProvider(LocationManager.NETWORK_PROVIDER).getName() : locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? locationManager.getProvider(LocationManager.GPS_PROVIDER).getName() : null;  
+		
+//		providerName = locationManager.getBestProvider(locationCritera, true);
 
 		if (providerName != null && !providerName.equalsIgnoreCase("passive") && locationManager.isProviderEnabled(providerName)) {
 			// TODO: DEBUG ONLY

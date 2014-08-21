@@ -144,6 +144,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
+				buttonSubmit.setEnabled(false);
+				
 				SearchCriteria searchCriteria = new SearchCriteria();
 
 				Locale locale = getResources().getConfiguration().locale;
@@ -267,8 +269,10 @@ public class MainActivity extends Activity {
 				intent.putExtra("searchResultSize", arrMovies.length);
 				
 				startActivity(intent);
+								
 			}
-		}
+			
+		}		
 
 	}
 
@@ -316,6 +320,8 @@ public class MainActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 
+		buttonSubmit.setEnabled(true);
+		
 		setLocationServiceIcon();
 
 		if (isLocationProviderEnabled()) {
@@ -371,7 +377,7 @@ public class MainActivity extends Activity {
 		textGps.setBackgroundResource(isGpsProviderEnabled == true ? R.color.green : R.color.red);
 		textNetwork.setBackgroundResource(isNetworkProviderEnabled == true ? R.color.green : R.color.red);
 
-		buttonSubmit.setEnabled(isGpsProviderEnabled == true ? false : isNetworkProviderEnabled == true ? false : true);
+//		buttonSubmit.setEnabled(isGpsProviderEnabled == true ? false : isNetworkProviderEnabled == true ? false : true);
 	}
 
 	private class DispLocListener implements LocationListener {
@@ -405,7 +411,7 @@ public class MainActivity extends Activity {
 //					textNetwork.setBackgroundResource(R.color.blue);	
 //				}			
 
-				buttonSubmit.setEnabled(true);
+//				buttonSubmit.setEnabled(true);
 
 				// TODO: DEBUG ONLY
 				tvLatitude.setText(Double.toString(location.getLatitude()));

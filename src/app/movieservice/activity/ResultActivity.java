@@ -124,11 +124,20 @@ public class ResultActivity extends Activity {
 				textCinema.setText(movie.getCinema());
 				
 				TextView textDistance = (TextView) tableRowCinemaDetail.findViewById(R.id.relative_distance);				
-				StringBuilder distance = new StringBuilder();			
-				distance.append(decimalFormat.format(movie.getRelativeDistance())).append(ConstantUtil.KILOMETER);			
+				StringBuilder distance = new StringBuilder();
+				
+				if(movie.getRelativeDistance() != null){
+					
+					distance.append(decimalFormat.format(movie.getRelativeDistance()));					
+				}else{
+					
+					distance.append(ConstantUtil.NOT_AVAILABLE).append(ConstantUtil.SPACE);	
+				}
+				
+				distance.append(ConstantUtil.KILOMETER);				
+
 				textDistance.setText(distance);
 				tableResult.addView(tableRowCinemaDetail);
-
 			}			
 									
 			String showingDate = CalendarUtil.getFormatDateString(movie.getShowingDate(), resultDateTimeFormat, locale);

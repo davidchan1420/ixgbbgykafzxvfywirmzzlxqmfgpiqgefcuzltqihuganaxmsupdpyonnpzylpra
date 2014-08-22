@@ -191,7 +191,7 @@ public class MainActivity extends Activity {
 
 		});
 
-		// TODO: Below is for Debug only
+		// TODO: DEBUG only
 		tvSystemMessage = (TextView) findViewById(R.id.tvSystemMessage);
 		tvSystemMessage.append("onCreate ");
 		tvLatitude = (TextView) findViewById(R.id.tvLatitude);
@@ -343,8 +343,7 @@ public class MainActivity extends Activity {
 		locationCritera.setCostAllowed(true);
 		locationCritera.setPowerRequirement(Criteria.NO_REQUIREMENT);
 
-		providerName = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) ? locationManager.getProvider(LocationManager.NETWORK_PROVIDER).getName() : locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? locationManager.getProvider(LocationManager.GPS_PROVIDER).getName() : null;  
-		
+		providerName = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) ? locationManager.getProvider(LocationManager.NETWORK_PROVIDER).getName() : locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? locationManager.getProvider(LocationManager.GPS_PROVIDER).getName() : null;		
 //		providerName = locationManager.getBestProvider(locationCritera, true);
 
 		if (providerName != null && !providerName.equalsIgnoreCase("passive") && locationManager.isProviderEnabled(providerName)) {

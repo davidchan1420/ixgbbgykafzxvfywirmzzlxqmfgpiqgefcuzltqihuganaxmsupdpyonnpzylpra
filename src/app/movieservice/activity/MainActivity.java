@@ -236,6 +236,7 @@ public class MainActivity extends Activity {
 
 			if (arrMovies.length == 0) {
 
+				buttonSubmit.setEnabled(true);
 				Toast.makeText(getApplicationContext(), R.string.empty_result, Toast.LENGTH_SHORT).show();
 			} else {
 

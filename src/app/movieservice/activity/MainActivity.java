@@ -12,7 +12,6 @@ import java.util.zip.GZIPOutputStream;
 
 import movieservice.domain.Movie;
 import movieservice.domain.SearchCriteria;
-import movieservice.domain.Temp1;
 import movieservice.util.CalendarUtil;
 import movieservice.util.Coordinate;
 

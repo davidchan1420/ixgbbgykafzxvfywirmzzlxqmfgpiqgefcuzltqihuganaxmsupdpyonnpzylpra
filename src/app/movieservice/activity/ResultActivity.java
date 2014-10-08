@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 import java.util.zip.GZIPInputStream;
 
 import movieservice.domain.Movie;
-import movieservice.domain.Temp1;
 import movieservice.util.CalendarUtil;
 import android.app.Activity;
 import android.content.Intent;

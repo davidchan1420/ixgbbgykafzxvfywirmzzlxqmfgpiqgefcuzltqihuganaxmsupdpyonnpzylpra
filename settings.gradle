@@ -1,0 +1,2 @@
+include ':MovieService_Common'
+project(':MovieService_Common').projectDir = new File(settingsDir, '../MovieService_Common')

@@ -1,0 +1,89 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+    }
+}
+
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+
+	compile project(':MovieService_Common') 
+
+    compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
+    compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
+    compile 'com.google.code.gson:gson:2.2.4'
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
+
+	defaultConfig {
+        versionCode 7
+        versionName "1.7"
+        minSdkVersion 8
+        targetSdkVersion 21
+    }
+
+ 	lintOptions {
+        abortOnError false                              
+    }
+    
+    packagingOptions {
+	    exclude 'META-INF/notice.txt'
+	    exclude 'META-INF/license.txt'	    
+	}
+    
+    signingConfigs {
+        release {
+            storeFile file("/home/roamerecom/Documents/testkey6")
+            storePassword "test1234"
+            keyAlias "abc"
+            keyPassword "test1234"
+        }
+    }
+    
+    buildTypes {
+        release {
+            runProguard true
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            proguardFiles 'proguard-project.txt'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+
+        androidTest.setRoot('tests')
+    }
+}
+
+dependencies {
+    // Module dependency
+    //compile project(":lib")
+
+    // Remote binary dependency
+    //compile 'com.android.support:appcompat-v7:19.0.1'
+
+    // Local binary dependency
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}

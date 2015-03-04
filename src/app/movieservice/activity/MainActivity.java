@@ -49,8 +49,8 @@ import app.movieservice.dialog.LanguageDialogFragment;
 import app.movieservice.util.ConstantUtil;
 
 import com.google.gson.Gson;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+//import com.google.android.gms.ads.AdRequest;
+//import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends Activity {
 
@@ -80,10 +80,10 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setTitle(R.string.app_name);
 		setContentView(R.layout.activity_main);
-		
-		AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);		
+
+//		AdView mAdView = (AdView) findViewById(R.id.adView);
+//		AdRequest adRequest = new AdRequest.Builder().build();
+//		mAdView.loadAd(adRequest);
 
 		locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -149,7 +149,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 
 				buttonSubmit.setEnabled(false);
-				
+
 				SearchCriteria searchCriteria = new SearchCriteria();
 
 				Locale locale = getResources().getConfiguration().locale;
@@ -162,7 +162,7 @@ public class MainActivity extends Activity {
 
 				searchCriteria.setDistanceRange(distance);
 
-//				if (searchCriteria.getDistanceRange() != null && latitude != null && longitude != null) {
+				// if (searchCriteria.getDistanceRange() != null && latitude != null && longitude != null) {
 				if (latitude != null && longitude != null) {
 
 					searchCriteria.setX(latitude);
@@ -203,11 +203,11 @@ public class MainActivity extends Activity {
 	}
 
 	private class SearchMoviesTask extends AsyncTask<String, Void, Movie[]> {
-//	private class SearchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
+		// private class SearchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
 
 		@Override
 		protected Movie[] doInBackground(String... params) {
-//		protected List<Movie> doInBackground(String ... params) {
+			// protected List<Movie> doInBackground(String ... params) {
 
 			String url = ConstantUtil.REMOTEHOST_ANDROID + "/movie/getMovies/{searchCriteria}";
 
@@ -216,27 +216,29 @@ public class MainActivity extends Activity {
 
 			// Add the Jackson message converter
 			restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
-//			restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+			// restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
 			// Make the HTTP GET request, marshaling the response from JSON to an array of Events
 			Movie[] arrMovies = restTemplate.getForObject(url, Movie[].class, params[0]);
 			return arrMovies;
 
-//			List<Movie> movies = Arrays.asList(arrMovies);			
-//			return movies;		
+			// List<Movie> movies = Arrays.asList(arrMovies);
+			// return movies;
 		}
 
 		@Override
 		protected void onPostExecute(Movie[] arrMovies) {
-//		protected void onPostExecute(List<Movie> arrMovies) {
+			// protected void onPostExecute(List<Movie> arrMovies) {
 
-//			List<Movie> movies = Arrays.asList(arrMovies);
-//			
-//			for(int i=0; i < result.size(); i++){
-//				
-//				Movie movie = (Movie) result.get(i);				
-//				System.out.println("Movie Name: " + movie.getMovieName() + ", Cinema: " + movie.getCinema() + ", Distance: " + movie.getRelativeDistance() + ", Time: " + movie.getShowingDate().getTime() + ", Fee: $" + movie.getFee());
-//			}			
+			// List<Movie> movies = Arrays.asList(arrMovies);
+			//
+			// for(int i=0; i < result.size(); i++){
+			//
+			// Movie movie = (Movie) result.get(i);
+			// System.out.println("Movie Name: " + movie.getMovieName() + ", Cinema: " + movie.getCinema() +
+			// ", Distance: " + movie.getRelativeDistance() + ", Time: " + movie.getShowingDate().getTime() + ", Fee: $"
+			// + movie.getFee());
+			// }
 
 			if (arrMovies.length == 0) {
 
@@ -244,45 +246,43 @@ public class MainActivity extends Activity {
 				Toast.makeText(getApplicationContext(), R.string.empty_result, Toast.LENGTH_SHORT).show();
 			} else {
 
-				Intent intent = new Intent(getApplicationContext(), ResultActivity.class);			
-				
-//				intent.putParcelableArrayListExtra("searchResult", (ArrayList<? extends Parcelable>) movies);
-				
+				Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+
+				// intent.putParcelableArrayListExtra("searchResult", (ArrayList<? extends Parcelable>) movies);
+
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				GZIPOutputStream gzipOut;
 				ObjectOutputStream objectOut;
-				
+
 				try {
 					gzipOut = new GZIPOutputStream(baos);
 					objectOut = new ObjectOutputStream(gzipOut);
 
-					for(int i=0; i < arrMovies.length; i++){
-						
+					for (int i = 0; i < arrMovies.length; i++) {
+
 						objectOut.writeObject(arrMovies[i]);
 					}
 					objectOut.close();
-					
+
 				} catch (IOException e) {
 					e.printStackTrace();
-				}			
+				}
 
-				
 				byte[] bytes = baos.toByteArray();
-				
-//				intent.putExtra("searchResult", arrMovies);
+
+				// intent.putExtra("searchResult", arrMovies);
 				intent.putExtra("searchResult", bytes);
 				intent.putExtra("searchResultSize", arrMovies.length);
-				
+
 				startActivity(intent);
-								
+
 			}
-			
-		}		
+
+		}
 
 	}
 
-	private void packShowingDates(final CheckBox cbDate, final SearchCriteria searchCriteria,
-			final List<SearchCriteria.ShowingDate> listShowingDate) {
+	private void packShowingDates(final CheckBox cbDate, final SearchCriteria searchCriteria, final List<SearchCriteria.ShowingDate> listShowingDate) {
 
 		if (cbDate.isChecked()) {
 			Calendar calDate = CalendarUtil.getCalendarByString(cbDate.getText().toString(), CalendarUtil.DEFAULT_DATE_FORMAT);
@@ -326,7 +326,7 @@ public class MainActivity extends Activity {
 		super.onResume();
 
 		buttonSubmit.setEnabled(true);
-		
+
 		setLocationServiceIcon();
 
 		if (isLocationProviderEnabled()) {
@@ -348,8 +348,10 @@ public class MainActivity extends Activity {
 		locationCritera.setCostAllowed(true);
 		locationCritera.setPowerRequirement(Criteria.NO_REQUIREMENT);
 
-		providerName = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) ? locationManager.getProvider(LocationManager.NETWORK_PROVIDER).getName() : locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? locationManager.getProvider(LocationManager.GPS_PROVIDER).getName() : null;		
-//		providerName = locationManager.getBestProvider(locationCritera, true);
+		providerName = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) ? locationManager.getProvider(
+				LocationManager.NETWORK_PROVIDER).getName() : locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? locationManager
+				.getProvider(LocationManager.GPS_PROVIDER).getName() : null;
+		// providerName = locationManager.getBestProvider(locationCritera, true);
 
 		if (providerName != null && !providerName.equalsIgnoreCase("passive") && locationManager.isProviderEnabled(providerName)) {
 			// TODO: DEBUG ONLY
@@ -381,7 +383,8 @@ public class MainActivity extends Activity {
 		textGps.setBackgroundResource(isGpsProviderEnabled == true ? R.color.green : R.color.red);
 		textNetwork.setBackgroundResource(isNetworkProviderEnabled == true ? R.color.green : R.color.red);
 
-//		buttonSubmit.setEnabled(isGpsProviderEnabled == true ? false : isNetworkProviderEnabled == true ? false : true);
+		// buttonSubmit.setEnabled(isGpsProviderEnabled == true ? false : isNetworkProviderEnabled == true ? false :
+		// true);
 	}
 
 	private class DispLocListener implements LocationListener {
@@ -404,27 +407,28 @@ public class MainActivity extends Activity {
 					textNetwork.setBackgroundResource(R.color.light_blue);
 				}
 
-//				boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-//				boolean isNetworkProviderEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-//				
-//				if(isGpsProviderEnabled==true){
-//					textGps.setBackgroundResource(R.color.blue);	
-//				}
-//				
-//				if(isNetworkProviderEnabled==true){
-//					textNetwork.setBackgroundResource(R.color.blue);	
-//				}			
+				// boolean isGpsProviderEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+				// boolean isNetworkProviderEnabled =
+				// locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+				//
+				// if(isGpsProviderEnabled==true){
+				// textGps.setBackgroundResource(R.color.blue);
+				// }
+				//
+				// if(isNetworkProviderEnabled==true){
+				// textNetwork.setBackgroundResource(R.color.blue);
+				// }
 
-//				buttonSubmit.setEnabled(true);
+				// buttonSubmit.setEnabled(true);
 
 				// TODO: DEBUG ONLY
 				tvLatitude.setText(Double.toString(location.getLatitude()));
 				tvLongitude.setText(Double.toString(location.getLongitude()));
-//				tvAltitude.setText(Double.toString(location.getAltitude()));
-//				tvAccuracy.setText(Double.toString(location.getAccuracy()));
+				// tvAltitude.setText(Double.toString(location.getAltitude()));
+				// tvAccuracy.setText(Double.toString(location.getAccuracy()));
 			} else {
-//				tvProviderStatus.setText("3");
-//				tvProviderStatus.setText("No location info available: " + System.currentTimeMillis());
+				// tvProviderStatus.setText("3");
+				// tvProviderStatus.setText("No location info available: " + System.currentTimeMillis());
 			}
 		}
 
@@ -436,18 +440,18 @@ public class MainActivity extends Activity {
 			longitude = null;
 
 			onResume();
-//			setLocationServiceIcon();			
-//			if(isLocationProviderEnabled()){
-//				updateLocation();
-//			}
-//			resetSpinnerValue();
+			// setLocationServiceIcon();
+			// if(isLocationProviderEnabled()){
+			// updateLocation();
+			// }
+			// resetSpinnerValue();
 
 			tvSystemMessage.append("onProviderDisabled ");
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
-//			tvSystemMessage.append("onProviderEnabled ");
+			// tvSystemMessage.append("onProviderEnabled ");
 		}
 
 		@Override

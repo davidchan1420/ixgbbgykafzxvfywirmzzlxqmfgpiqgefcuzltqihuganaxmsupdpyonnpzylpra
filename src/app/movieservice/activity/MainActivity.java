@@ -49,8 +49,8 @@ import app.movieservice.dialog.LanguageDialogFragment;
 import app.movieservice.util.ConstantUtil;
 
 import com.google.gson.Gson;
-//import com.google.android.gms.ads.AdRequest;
-//import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 public class MainActivity extends Activity {
 
@@ -81,9 +81,9 @@ public class MainActivity extends Activity {
 		setTitle(R.string.app_name);
 		setContentView(R.layout.activity_main);
 
-//		AdView mAdView = (AdView) findViewById(R.id.adView);
-//		AdRequest adRequest = new AdRequest.Builder().build();
-//		mAdView.loadAd(adRequest);
+		AdView mAdView = (AdView) findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder().build();
+		mAdView.loadAd(adRequest);
 
 		locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
 

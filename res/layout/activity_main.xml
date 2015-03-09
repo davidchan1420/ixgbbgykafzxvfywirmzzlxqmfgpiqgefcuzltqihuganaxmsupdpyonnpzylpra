@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     tools:context=".MainActivity" >
 
-    <LinearLayout        
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -259,14 +259,27 @@
         <!-- android:layout_width="fill_parent" -->
         <!-- android:layout_height="wrap_content" -->
         <!-- android:textSize="10sp" -->
+
+<!--         <fragment -->
+<!--             android:name="app.movieservice.activity.MainActivity$PlaceholderFragment" -->
+<!--             android:layout_width="match_parent" -->
+<!--             android:layout_height="match_parent" -->
+<!--             android:layout_above="@+id/adFragment" /> -->
+<!--         <fragment -->
+<!--             android:id="@+id/adFragment" -->
+<!--             android:name="app.movieservice.activity.MainActivity$AdFragment" -->
+<!--             android:layout_width="match_parent" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_alignParentBottom="true" /> -->
+   
+<!--     <com.google.android.gms.ads.AdView -->
+<!--     android:id="@+id/adView" -->
+<!--     android:layout_width="match_parent" -->
+<!--     android:layout_height="wrap_content" -->
+<!--     ads:adSize="SMART_BANNER" -->
+<!--     ads:adUnitId="@string/banner_ad_unit_id"> -->
+<!--     </com.google.android.gms.ads.AdView> -->
+        
     </LinearLayout>
     
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id">
-    </com.google.android.gms.ads.AdView>
-
 </ScrollView>

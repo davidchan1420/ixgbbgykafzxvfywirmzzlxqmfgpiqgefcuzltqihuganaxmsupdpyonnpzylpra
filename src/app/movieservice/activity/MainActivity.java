@@ -31,12 +31,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.Settings;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -47,10 +49,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import app.movieservice.dialog.LanguageDialogFragment;
 import app.movieservice.util.ConstantUtil;
-
 import com.google.gson.Gson;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import android.support.v4.app.Fragment;
 
 public class MainActivity extends Activity {
 
@@ -81,9 +83,9 @@ public class MainActivity extends Activity {
 		setTitle(R.string.app_name);
 		setContentView(R.layout.activity_main);
 
-		AdView mAdView = (AdView) findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder().build();
-		mAdView.loadAd(adRequest);
+//		 AdView mAdView = (AdView) findViewById(R.id.adView);
+//		 AdRequest adRequest = new AdRequest.Builder().build();
+//		 mAdView.loadAd(adRequest);
 
 		locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -521,5 +523,21 @@ public class MainActivity extends Activity {
 			buttonView.setChecked(true);
 		}
 	}
+
+//	public static class AdFragment extends Fragment {
+//
+//		@Override
+//		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//			return inflater.inflate(R.layout.fragment_ad, container, false);
+//		}
+//
+//		@Override
+//		public void onActivityCreated(Bundle bundle) {
+//			super.onActivityCreated(bundle);
+//			AdView mAdView = (AdView) getView().findViewById(R.id.adView);
+//			AdRequest adRequest = new AdRequest.Builder().build();
+//			mAdView.loadAd(adRequest);
+//		}
+//	}
 
 }

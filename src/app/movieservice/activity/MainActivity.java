@@ -83,9 +83,9 @@ public class MainActivity extends Activity {
 		setTitle(R.string.app_name);
 		setContentView(R.layout.activity_main);
 
-		// AdView mAdView = (AdView) findViewById(R.id.adView);
-		// AdRequest adRequest = new AdRequest.Builder().build();
-		// mAdView.loadAd(adRequest);
+//		 AdView mAdView = (AdView) findViewById(R.id.adView);
+//		 AdRequest adRequest = new AdRequest.Builder().build();
+//		 mAdView.loadAd(adRequest);
 
 		locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
 

@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,10 +50,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import app.movieservice.dialog.LanguageDialogFragment;
 import app.movieservice.util.ConstantUtil;
+
 import com.google.gson.Gson;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import android.support.v4.app.Fragment;
 
 public class MainActivity extends Activity {
 
@@ -83,9 +84,10 @@ public class MainActivity extends Activity {
 		setTitle(R.string.app_name);
 		setContentView(R.layout.activity_main);
 
-//		 AdView mAdView = (AdView) findViewById(R.id.adView);
-//		 AdRequest adRequest = new AdRequest.Builder().build();
-//		 mAdView.loadAd(adRequest);
+//		AdView mAdView = (AdView) findViewById(R.id.adView);		 
+//        mAdView.setAdListener(new ToastAdListener(this));
+//        mAdView.loadAd(new AdRequest.Builder().build());
+
 
 		locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
 

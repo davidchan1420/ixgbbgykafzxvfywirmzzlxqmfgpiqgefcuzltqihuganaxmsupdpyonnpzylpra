@@ -1,5 +1,6 @@
 #org.springsource.ide.eclipse.gradle.core.preferences.GradleProjectPreferences
-#Fri Jan 02 16:51:42 HKT 2015
+#Wed Feb 25 11:08:11 HKT 2015
 build.family.org.gradle.tooling.model.eclipse.HierarchicalEclipseProject=;../MovieService_Common;
+org.springsource.ide.eclipse.gradle.classpath.enableSorting=true
 org.springsource.ide.eclipse.gradle.linkedresources=
 org.springsource.ide.eclipse.gradle.rootprojectloc=

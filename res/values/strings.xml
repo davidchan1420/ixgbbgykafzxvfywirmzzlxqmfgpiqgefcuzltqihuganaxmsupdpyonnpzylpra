@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Movies Anywhere</string>
-<!--     <string name="title_activity_main">Movies Anywhere</string> -->
+    <!-- <string name="title_activity_main">Movies Anywhere</string> -->
 
     <string name="choose_language">Please select language</string>
     <string name="language">Language</string>
@@ -41,14 +41,15 @@
     <string name="network">Network</string>
     <string name="submit">Search</string>
     <string name="reset">Reset</string>
-    
     <string name="empty_string" />
-    
     <string name="empty_result">No movies matched your search criteria.</string>
-    
     <string name="title_activity_result">Movie Search Result</string>
-<!--     <string name="action_settings">Settings</string> -->
-<!--     <string name="hello_world">Hello world!</string> -->
+    <!-- <string name="action_settings">Settings</string> -->
+    <!-- <string name="hello_world">Hello world!</string> -->
 
-	<string name="banner_ad_unit_id">ca-app-pub-3161471562724155/3337855622</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3161471562724155/3337855622</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
 </resources>

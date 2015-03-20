@@ -152,6 +152,21 @@
 <!--         ads:adSize="SMART_BANNER" -->
 <!--         ads:adUnitId="@string/banner_ad_unit_id"/> -->
 
+<!--         <fragment             -->
+<!--             android:id="@+id/placeHolderFragment" -->
+<!--             android:name="app.movieservice.activity.MainActivity$PlaceholderFragment" -->
+<!--             android:layout_width="match_parent" -->
+<!--             android:layout_height="match_parent" -->
+<!--             android:layout_above="@+id/adFragment" /> -->
+        
+        <fragment
+            android:id="@+id/adFragment"
+            android:name="app.movieservice.activity.MainActivity$AdFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
+
+
         <TextView
             android:id="@+id/lblProviderName"
             android:layout_width="fill_parent"
@@ -270,29 +285,6 @@
         <!-- android:layout_width="fill_parent" -->
         <!-- android:layout_height="wrap_content" -->
         <!-- android:textSize="10sp" -->
-
-        <fragment            
-            android:id="@+id/placeHolderFragment"
-            android:name="app.movieservice.activity.MainActivity$PlaceholderFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/adFragment" />
-        
-        <fragment
-            android:id="@+id/adFragment"
-            android:name="app.movieservice.activity.MainActivity$AdFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" />
-   
-<!--            <fragment             -->
-<!--             android:id="@+id/testFragment" -->
-<!--             android:name="app.movieservice.activity.TestFragment" -->
-<!--             android:layout_width="match_parent" -->
-<!--             android:layout_height="match_parent" -->
-<!--             /> -->
-        
-
         
     </LinearLayout>   
     

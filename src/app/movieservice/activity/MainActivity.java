@@ -529,17 +529,17 @@ public class MainActivity extends Activity {
 	/**
 	 * A placeholder fragment containing a simple view. This fragment would include your content.
 	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_my, container, false);
-			return rootView;
-		}
-	}
+//	public static class PlaceholderFragment extends Fragment {
+//
+//		public PlaceholderFragment() {
+//		}
+//
+//		@Override
+//		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//			View rootView = inflater.inflate(R.layout.fragment_my, container, false);
+//			return rootView;
+//		}
+//	}
 
 	/**
 	 * This class makes the ad request and loads the ad.
@@ -562,7 +562,8 @@ public class MainActivity extends Activity {
 			// Create an ad request. Check logcat output for the hashed device ID to
 			// get test ads on a physical device. e.g.
 			// "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
-			AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+			//AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
+			AdRequest adRequest = new AdRequest.Builder().build();
 
 			// Start loading the ad in the background.
 			mAdView.loadAd(adRequest);

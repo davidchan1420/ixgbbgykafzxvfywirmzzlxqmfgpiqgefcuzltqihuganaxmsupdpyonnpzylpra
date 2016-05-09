@@ -143,11 +143,17 @@ public class ResultActivity extends Activity {
 			TextView textShowingDate = (TextView) tableRowMovieDetail.findViewById(R.id.showing_date);
 			textShowingDate.setText(showingDate);
 
-			TextView textFee = (TextView) tableRowMovieDetail.findViewById(R.id.fee);
-			
+			TextView textFee = (TextView) tableRowMovieDetail.findViewById(R.id.fee);			
 			StringBuilder movieFee = new StringBuilder(ConstantUtil.DOLLAR_SIGN);
 			movieFee.append(movie.getFee() != null ? movie.getFee().toString() : ConstantUtil.NOT_AVAILABLE);			
-			textFee.setText(movieFee);			
+			textFee.setText(movieFee);
+			
+			TextView textSeat = (TextView) tableRowMovieDetail.findViewById(R.id.seat);			
+			StringBuilder seat = new StringBuilder();
+			seat.append(movie.getNormalSeat() != null ? movie.getNormalSeat() : ConstantUtil.NOT_AVAILABLE).append("/");
+			seat.append(movie.getVibratingSeat() != null ? movie.getNormalSeat() : ConstantUtil.NOT_AVAILABLE).append("/");
+			seat.append(movie.getWheelChairSeat());			
+			textSeat.setText(seat);			
 			
 			tableResult.addView(tableRowMovieDetail);
 			
